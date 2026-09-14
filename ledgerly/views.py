@@ -15,7 +15,8 @@ def registration(request):
                 phone_number=request.POST["phone_number"],
                 password=make_password(request.POST["password"])
                 )
-                return redirect("dashboard")
+                request.session["session"] =  User.objects.filter(email = request.POST["email"]).first().id
+                return redirect("Dashboard")
 
         except IntegrityError:
             return render(
