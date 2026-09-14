@@ -4,7 +4,7 @@ from ledgerly.views import *
 
 urlpatterns = [
     path("", TemplateView.as_view(template_name="Loginpage.html"), name="Loginpage"),
-    path("Dashboard/", TemplateView.as_view(template_name="Dashboard.html"), name="dashboard"),
+    path("Dashboard/", dashboard_protect, name="Dashboard"),
     path("register/", registration, name="register"),
     path("CheckUser/",CheckUser,name="CheckUser")
 ]
