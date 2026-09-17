@@ -1,9 +1,158 @@
 {% extends "base.html" %}
 {% load static %}
-{% block title %}Ledgerly — Loginpage{% endblock %}
+{% block title %}Ledgerly — Dashboard{% endblock %}
 {% block content %}
-<main
-    class="min-h-screen bg-cover bg-center bg-no-repeat relative flex items-center justify-center"
-    style="background-image: url('{% static "attached_assets/background2.png" %}');"
+
+<main class="min-h-screen bg-white">
+
+ <div style="min-height: 100vh; display: flex;">
+        <aside
+            style="
+                width: 275px;
+                height: 100vh;
+                background: white;
+                border: 1px solid rgb(197, 197, 197);
+            ">
+
+        <img
+        src="{% static 'attached_assets/LOGO.png' %}"
+        alt="Ledgerly"
+        class="w-[50px] h-auto mx-auto -mt-4"
+         >
+
+        <div
+    style="
+        width: 250px;
+        height: 35px;
+        margin: -8px auto 0;
+        display: flex;
+        align-items: center;
+        background: white;
+        border: 1px solid rgb(209, 213, 219);
+        border-radius: 8px;
+        box-sizing: border-box;
+        padding: 0 12px;
+    "
 >
+    <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="18"
+        height="18"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="rgb(130, 130, 130)"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+    >
+        <circle cx="11" cy="11" r="7"></circle>
+        <line x1="16.5" y1="16.5" x2="21" y2="21"></line>
+    </svg>
+
+    <input
+        type="text"
+        placeholder="Ticker or name"
+        style="
+            width: 100%;
+            border: none;
+            outline: none;
+            padding-left: 8px;
+            font-size: 14px;
+            background: transparent;
+        "
+    >
+</div>
+<div
+    style="
+        margin-top: 20px;
+        height: calc(100vh - 220px);
+        overflow-y: auto;
+        padding: 0 15px;
+        box-sizing: border-box;
+    "
+>
+    <div
+        style="
+            height: 45px;
+            display: flex;
+            align-items: center;
+            padding: 0 10px;
+            border-bottom: 1px solid rgb(235, 235, 235);
+            font-size: 14px;
+            cursor: pointer;
+        "
+    >
+        Apple
+    </div>
+
+    <div
+        style="
+            height: 45px;
+            display: flex;
+            align-items: center;
+            padding: 0 10px;
+            border-bottom: 1px solid rgb(235, 235, 235);
+            font-size: 14px;
+            cursor: pointer;
+        "
+    >
+        NVIDIA
+    </div>
+
+    <div
+        style="
+            height: 45px;
+            display: flex;
+            align-items: center;
+            padding: 0 10px;
+            border-bottom: 1px solid rgb(235, 235, 235);
+            font-size: 14px;
+            cursor: pointer;
+        "
+    >
+        Microsoft
+    </div>
+
+    <div
+        style="
+            height: 45px;
+            display: flex;
+            align-items: center;
+            padding: 0 10px;
+            border-bottom: 1px solid rgb(235, 235, 235);
+            font-size: 14px;
+            cursor: pointer;
+        "
+    >
+        Tesla
+    </div>
+
+    <div
+        style="
+            height: 45px;
+            display: flex;
+            align-items: center;
+            padding: 0 10px;
+            border-bottom: 1px solid rgb(235, 235, 235);
+            font-size: 14px;
+            cursor: pointer;
+        "
+    >
+        Amazon
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+        </aside>
+    </div>
+</main>
 {% endblock %}

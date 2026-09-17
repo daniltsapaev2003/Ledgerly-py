@@ -8,6 +8,7 @@ dependencies = [
     "httpx>=0.28.1",
     "psycopg>=3.3.5",
     "python-dotenv>=1.2.3",
+    "t-tech-investments>=1.51.0",
 ]
 
 [project.scripts]
