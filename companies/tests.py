@@ -1,11 +1,3 @@
-from tinkoff import get_shares
+from django.test import TestCase
 
-
-shares = get_shares()
-
-print(f"Получено акций: {len(shares)}")
-print()
-
-share = shares[0]
-
-print(share)
+# Create your tests here.

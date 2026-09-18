@@ -1,6 +1,7 @@
 from django.urls import path
 from django.views.generic import TemplateView
 from ledgerly.views import *
+from companies.views import dashboard
 
 urlpatterns = [
     path("", TemplateView.as_view(template_name="Loginpage.html"), name="Loginpage"),
