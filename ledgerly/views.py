@@ -3,7 +3,7 @@ from .models import User
 from django.db import IntegrityError
 from django.contrib.auth.hashers import make_password 
 from django.contrib.auth.hashers import check_password
-
+from companies.models import Company
 
 def registration(request):
     if request.method == "POST":
@@ -43,6 +43,15 @@ def CheckUser(request):
 
 def dashboard_protect(request):
     if "session" in request.session:
-        return render(request, "Dashboard.html")
+        companies = Company.objects.filter(
+            is_active=True
+        ).order_by("ticker")
+
+        return render(
+            request,
+            "Dashboard.html",
+            {"companies": companies},
+        )
+
     return redirect("Loginpage")
      
