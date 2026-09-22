@@ -31,12 +31,17 @@ def CheckUser(request):
     password = request.POST["password"]
     if user_data.exists():
          if check_password(password,user_data.first().password):
-              return redirect("dashboard")
-         
-    
+              request.session["session"] = user_data.first().id
+              return redirect("Dashboard")
     return render(
                     request,
                     "Loginpage.html",
                     {"wrong_email_password": True}
                 )   
-   
+
+
+def dashboard_protect(request):
+    if "session" in request.session:
+        return render(request, "Dashboard.html")
+    return redirect("Loginpage")
+     
