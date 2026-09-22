@@ -36,11 +36,10 @@ def sync_companies():
 
         logo_files = list(assets_dir.glob(f"{share.ticker}_*.png"))
 
-        logo_path = (
-            f"attached_assets/{logo_files[0].name}"
-            if logo_files
-            else None
-        )
+        if logo_files:
+            logo_path = f"attached_assets/{logo_files[0].name}"
+        else:
+            logo_path = None
 
         company, created = Company.objects.update_or_create(
             tinkoff_uid=share.uid,

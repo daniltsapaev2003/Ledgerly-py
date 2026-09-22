@@ -4,7 +4,8 @@ from django.db import IntegrityError
 from django.contrib.auth.hashers import make_password 
 from django.contrib.auth.hashers import check_password
 from companies.models import Company
-
+from ledgerly.models import User
+from django.http import JsonResponse
 def registration(request):
     if request.method == "POST":
         try:
@@ -44,14 +45,57 @@ def CheckUser(request):
 def dashboard_protect(request):
     if "session" in request.session:
         companies = Company.objects.filter(
-            is_active=True
+        is_active=True
         ).order_by("ticker")
 
-        return render(
-            request,
-            "Dashboard.html",
-            {"companies": companies},
+        user = User.objects.get(
+        id=request.session["session"]
         )
 
+        return render(
+        request,
+        "Dashboard.html",
+        {
+            "companies": companies,
+            "user": user,
+        },
+    )
+
     return redirect("Loginpage")
-     
+
+def logout(request):
+    request.session.flush()
+
+    return redirect("Loginpage")
+
+
+def company_price(request, company_id):
+    if "session" not in request.session:
+        return JsonResponse(
+            {"error": "Unauthorized"},
+            status=401,
+        )
+
+    company = Company.objects.filter(
+        id=company_id,
+        is_active=True,
+    ).first()
+
+    if not company:
+        return JsonResponse(
+            {"error": "Company not found"},
+            status=404,
+        )
+
+    from tinkoff.tinkoff import get_last_price
+
+    price = get_last_price(company.tinkoff_uid)
+
+    return render(
+    request,
+    "Company_price.html",
+    {
+        "price": price,
+        "company_id": company_id,
+    },
+)

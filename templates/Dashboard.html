@@ -13,7 +13,7 @@
             style="
                 width: 275px;
                 height: 100vh;
-                background: white;
+                background: rgb(250, 250, 250);
                 border: 1px solid rgb(197, 197, 197);
                 display: flex;
                 flex-direction: column;
@@ -65,6 +65,7 @@
                 </svg>
 
                 <input
+                    id="company-search"
                     type="text"
                     placeholder="Ticker or name"
                     style="
@@ -94,10 +95,23 @@
                 {% for company in companies %}
 
                     <div
+                        class="company-item"
+                        data-company-uid="{{ company.tinkoff_uid }}"
+                        data-ticker="{{ company.ticker|lower }}"
+                        data-name="{{ company.name|lower }}"
+                        data-company-name="{{ company.name }}"
+                        data-logo-path="{% if company.logo_path %}{% static company.logo_path %}{% endif %}"
+                        data-logo-color="{{ company.logo_color }}"
+                        hx-get="/company/{{ company.id }}/price/"
+                        hx-trigger="click"
+                        hx-target="#company-header-price"
+                        hx-swap="outerHTML"
+                        hx-sync="#company-header-price:replace"
                         style="
                             height: 42px;
                             min-height: 42px;
                             display: flex;
+                            flex-shrink: 0;
                             align-items: center;
                             gap: 10px;
                             padding: 0 8px;
@@ -140,7 +154,7 @@
                             </div>
 
                         {% endif %}
-
+                        
                         <span
                             style="
                                 font-size: 14px;
@@ -153,6 +167,93 @@
                     </div>
 
                 {% endfor %}
+                
+                <script>
+                            const searchInput = document.getElementById("company-search");
+                            const companyItems = document.querySelectorAll(".company-item");
+
+                            searchInput.addEventListener("input", function () {
+                                const searchValue = this.value.toLowerCase().trim();
+
+                                companyItems.forEach(function (company) {
+                                    const ticker = company.dataset.ticker;
+                                    const name = company.dataset.name;
+
+                                    const matches =
+                                        ticker.includes(searchValue) ||
+                                        name.includes(searchValue);
+
+                                    company.style.display = matches ? "flex" : "none";
+                                });
+                            });
+                            companyItems.forEach(function (company) {
+
+    company.addEventListener("click", function () {
+
+        companyItems.forEach(function (item) {
+            item.classList.remove("selected");
+        });
+
+        company.classList.add("selected");
+
+        const companyName = company.dataset.companyName;
+        const logoPath = company.dataset.logoPath;
+        const logoColor = company.dataset.logoColor;
+
+        const headerName =
+            document.getElementById("company-header-name");
+
+        const headerLogo =
+            document.getElementById("company-header-logo");
+
+        headerName.textContent = companyName;
+
+        if (logoPath) {
+
+            headerLogo.innerHTML = `
+                <img
+                    src="${logoPath}"
+                    alt="${companyName}"
+                    style="
+                        width: 70px;
+                        height: 70px;
+                        object-fit: contain;
+                        border-radius: 50%;
+                    "
+                >
+            `;
+
+        } else {
+
+            headerLogo.innerHTML = `
+                <div
+                    style="
+                        width: 70px;
+                        height: 70px;
+                        border-radius: 50%;
+                        background: ${logoColor};
+                        color: white;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        font-size: 13px;
+                        font-weight: 600;
+                        
+                    "
+                >
+                    ${company.dataset.ticker
+                        .slice(0, 2)
+                        .toUpperCase()}
+                </div>
+            `;
+
+        }
+
+    });
+
+});
+                        </script>
+
 
             </div>
 <!-- Bottom block -->
@@ -162,12 +263,82 @@
         height: 50px;
         min-height: 50px;
         border-top: 1px solid rgb(209, 213, 219);
-        background: white;
+        background: rgb(250, 250, 250);
         box-sizing: border-box;
+        display: flex;
+        align-items: center;
+        padding: 0 15px;
     "
 >
+    <div
+        style="
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: rgba(0, 13, 255, 0.55);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            font-weight: 500;
+            flex-shrink: 0;
+        "
+    >
+        {{ user.first_name|first|upper }}{{ user.last_name|first|upper }}
+    </div>
+    <div
+        style="
+            margin-left: 10px;
+            font-size: 13px;
+            color: rgb(0, 0, 0);
+        "
+    >
+        {{ user.last_name }} {{ user.first_name }}
+    </div>
+
+    <form
+    method="POST"
+    action="{% url 'logout' %}"
+    style="
+        margin-left: auto;
+        display: flex;
+        align-items: center;
+    "
+    >
+    {% csrf_token %}
+    <button
+    type="submit"
+    class="logout-button"
+    style="
+        border: none;
+        background: transparent;
+        cursor: pointer;
+        color: rgb(0, 0, 0);
+        font-size: 13px;
+    "
+>
+        <svg
+        width="20"
+        height="20"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+    >
+        <path d="M13 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h7" />
+        <path d="M17 8l4 4-4 4" />
+        <path d="M21 12H9" />
+    </svg>
+        </button>
+        </form>
 </div>
         </aside>
+
+    {% include "Company_panel.html" %}
+
 
     </div>
 

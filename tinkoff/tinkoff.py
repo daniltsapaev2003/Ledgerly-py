@@ -3,8 +3,6 @@ from t_tech.invest import Client
 from t_tech.invest import RealExchange
 from t_tech.invest import SecurityTradingStatus
 from dotenv import load_dotenv
-from t_tech.invest import Client
-from t_tech.invest import SecurityTradingStatus
 
 load_dotenv()
 
@@ -18,10 +16,25 @@ def get_shares():
     with Client(TINKOFF_TOKEN) as client:
         response = client.instruments.shares()
 
-    return [
-        share
-      for share in response.instruments
-      if share.trading_status
-      != SecurityTradingStatus.SECURITY_TRADING_STATUS_NOT_AVAILABLE_FOR_TRADING
-      and share.real_exchange == RealExchange.REAL_EXCHANGE_MOEX
-    ]
+    shares = []
+
+    for share in response.instruments:
+         if share.trading_status != SecurityTradingStatus.SECURITY_TRADING_STATUS_NOT_AVAILABLE_FOR_TRADING and share.real_exchange == RealExchange.REAL_EXCHANGE_MOEX:
+             shares.append(share)
+    return shares
+
+def get_last_price(instrument_uid):
+    if not TINKOFF_TOKEN:
+        raise RuntimeError("TINKOFF_TOKEN не найден в .env")
+
+    with Client(TINKOFF_TOKEN) as client:
+        response = client.market_data.get_last_prices(
+            instrument_id=[instrument_uid]
+        )
+
+    if not response.last_prices:
+        return None
+
+    price = response.last_prices[0].price
+
+    return price.units + price.nano / 1_000_000_000

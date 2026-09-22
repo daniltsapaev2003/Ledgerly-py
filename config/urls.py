@@ -7,5 +7,11 @@ urlpatterns = [
     path("", TemplateView.as_view(template_name="Loginpage.html"), name="Loginpage"),
     path("Dashboard/", dashboard_protect, name="Dashboard"),
     path("register/", registration, name="register"),
-    path("CheckUser/",CheckUser,name="CheckUser")
+    path("CheckUser/",CheckUser,name="CheckUser"),
+    path("logout/", logout, name="logout"),
+    path(
+    "company/<int:company_id>/price/",
+    company_price,
+    name="company_price",
+    ),
 ]
