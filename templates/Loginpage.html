@@ -1,0 +1,259 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Ledgerly — Loginpage{% endblock %}
+
+{% block content %}
+
+
+<main
+    class="min-h-screen bg-cover bg-center bg-no-repeat relative flex items-center justify-center"
+    style="background-image: url('{% static "attached_assets/background2.png" %}');"
+>
+
+    <div class="perspective-[1000px] w-100 h-125">
+        <div
+            id="auth-card"
+            class="relative w-full h-full transition-transform duration-700 [transform-style:preserve-3d]"
+        >
+
+            <!-- LOGIN SIDE -->
+            
+            <div
+                class="absolute inset-0 [backface-visibility:hidden] w-100 h-125 bg-white/85 border border-gray-500 rounded-xl p-2 shadow-[0_0_35px_rgba(173,197,255,0.65)]"
+            >
+            <form method="POST" action="{% url 'CheckUser' %}">
+                {% csrf_token %}
+                <img
+                    src="{% static 'attached_assets/LOGO.png' %}"
+                    alt="Ledgerly"
+                    class="w-80 h-auto mx-auto mb-1 mt-0"
+                >
+
+                <p class="text-center text-black text-sm font-normal -mt-6 mb-10">
+                    Sign in to your account to continue
+                </p>
+
+                <label class="block ml-6 mx-auto text-sm font-normal text-black mb-2">
+                    Email adress
+                </label>
+
+                <input
+                    required
+                    type="email"
+                    name="email"
+                    placeholder="Enter your email"
+                    class="block w-85 mx-auto border border-gray-500 rounded-xl px-4 py-1.5 text-black placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-900 focus:border-transparent font-normal mb-6"
+                >
+
+                <div class="flex items-center justify-between w-82 mx-auto mb-2">
+
+                    <label class="text-sm font-normal text-black">
+                        Password
+                    </label>
+
+                    <a href="javascript:void(0)" class="text-sm font-normal text-[#3d43b8] hover:underline">
+                        Forgot password?
+                    </a>
+
+                </div>
+
+                <input
+                     required
+                    name="password"
+                    type="password"
+                    placeholder="Enter password"
+                    class="block w-85 mx-auto border border-gray-500 rounded-xl px-4 py-1.5 text-black placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-900 focus:border-transparent font-normal"
+                >
+                
+                 
+                <button
+                    type="submit"
+                    class="flex items-center justify-center gap-2 w-85 mx-auto mt-6 bg-[#3d43b8] hover:bg-[#3237a0] text-white font-normal py-2 rounded-xl transition"
+                >
+                    Sign in
+                    <span>→</span>
+                </button>
+    {% if wrong_email_password %}
+    <div
+        id="login-error-message"
+        class="w-85 mx-auto mt-2 text-center"
+        style="color: rgb(188, 0, 0); opacity: 1; transition: opacity 0.5s ease;"
+    >
+        Wrong email or password
+    </div>
+
+    <script>
+        setTimeout(() => {
+            const message = document.getElementById("login-error-message");
+
+            if (message) {
+                message.style.opacity = "0";
+
+                setTimeout(() => {
+                    message.remove();
+                }, 500);
+            }
+        }, 2000);
+    </script>
+{% endif %}
+{% if user_exists %}
+    <div
+        id="email-error-message"
+        class="w-85 mx-auto mt-2 text-center"
+        style="color: rgb(20, 167, 0); opacity: 1; transition: opacity 0.5s ease;"
+    >
+        User with this email is already exists
+    </div>
+
+    <script>
+        setTimeout(() => {
+            const message = document.getElementById("email-error-message");
+
+            if (message) {
+                message.style.opacity = "0";
+
+                setTimeout(() => {
+                    message.remove();
+                }, 500);
+            }
+        }, 2000);
+    </script>
+{% endif %}
+
+                <div class="w-85 mx-auto mt-6 border-t border-gray-400"></div>
+
+                <div class="flex items-center justify-center gap-1 mt-5 text-sm">
+
+                    <span class="text-gray-500">
+                        Do not have an account?
+                    </span>
+
+                    <button
+                        type="button"
+                        onclick="document.getElementById('auth-card').classList.toggle('auth-flipped')"
+                        class="text-[#3d43b8] font-normal hover:underline"
+                    >
+                        Sign up
+                    </button>
+
+                </div>
+            </Form>
+            </div>
+        
+
+            <!-- SIGN UP SIDE -->
+            <div
+                class="absolute inset-0 [backface-visibility:hidden] [transform:rotateY(180deg)] w-100 h-140 bg-white/85 border border-gray-500 rounded-xl p-2 shadow-[0_0_35px_rgba(173,197,255,0.65)]"
+            >
+
+            <img
+                    src="{% static 'attached_assets/LOGO.png' %}"
+                    alt="Ledgerly"
+                    class="w-80 h-auto mx-auto mb-1 mt-0"
+                >
+
+                <div class="flex gap-4 w-85 mx-auto mb-2">
+
+
+    <form method="POST" action="{% url 'register' %}">
+    {% csrf_token %}
+<div class="flex gap-4">
+    <div class="w-1/2">
+        <label class="block text-sm font-normal text-black mb-1 ml-1">
+            First name
+        </label>
+
+        <input
+            required
+            type="text"
+            name="first_name"
+            placeholder="Danil"
+            class="block w-full border border-gray-500 rounded-xl px-4 py-1.5 text-black placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-900 focus:border-transparent font-normal"
+        >
+    </div>
+
+    <div class="w-1/2">
+        <label class="block text-sm font-normal text-black mb-1  ml-1">
+            Last name
+        </label>
+
+        <input
+            required
+            type="text"
+            name="last_name"
+            placeholder="Tsapaev"
+            class=" block w-full border border-gray-500 rounded-xl px-4 py-1.5 text-black placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-900 focus:border-transparent font-normal"
+        >
+    </div>
+</div>
+</div>
+<label class="block w-82 mx-auto text-sm font-normal text-black mb-1">
+    Phone number
+</label>
+
+<input
+    required
+    type="tel"
+    name="phone_number"
+    placeholder="+79200450525"
+    class=" block w-85 mx-auto border border-gray-500 rounded-xl px-4 py-1.5 text-black placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-900 focus:border-transparent font-normal mb-2"
+>
+        
+<label class="block w-82 mx-auto text-sm font-normal text-black mb-1">
+    Email adress
+</label>
+
+<input
+    required
+    type="email"
+    name="email"
+    placeholder="example@example.com"
+    class="block w-85 mx-auto border border-gray-500 rounded-xl px-4 py-1.5 text-black placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-900 focus:border-transparent font-normal mb-2"
+>
+<label class="block w-82 mx-auto text-sm font-normal text-black mb-1">
+    Password
+</label>
+
+<input
+    required    
+    type="password"
+    name="password"
+    placeholder="Enter password"
+    class="block w-85 mx-auto border border-gray-500 rounded-xl px-4 py-1.5 text-black placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-900 focus:border-transparent font-normal mb-5"
+>
+<button
+    type="submit"
+    class="flex items-center justify-center gap-2 w-85 mx-auto mt-2 bg-[#3d43b8] hover:bg-[#3237a0] text-white font-normal py-2 rounded-xl transition"
+>
+    Create account
+    <span>→</span>
+</button>
+</form>
+
+<div class="w-85 mx-auto mt-6 border-t border-gray-400"></div>
+
+<div class="flex items-center justify-center gap-1 mt-5 text-sm">
+    <span class="text-gray-500">
+        Already have an account?
+    </span>
+
+    <button
+        type="button"
+        onclick="document.getElementById('auth-card').classList.toggle('auth-flipped')"
+        class="text-[#3d43b8] font-normal hover:underline"
+    >
+        Sign in
+    </button>
+</div>
+
+
+            </div>
+
+        </div>
+
+
+</div>
+</main>
+
+{% endblock %}
