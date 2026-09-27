@@ -1,0 +1,65 @@
+{% load static %}
+
+<div
+    style="
+        width: 100%;
+        height: 100%;
+        background: rgb(248, 249, 252);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-sizing: border-box;
+    "
+>
+    <div
+        style="
+            width: 700px;
+            min-height: 200px;
+            background: rgb(250, 250, 250);
+            border: 1px solid rgb(197, 197, 197);
+            border-radius: 18px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-sizing: border-box;
+            padding: 20px;
+        "
+    >
+        <img
+            src="{% static 'attached_assets/LOGO.png' %}"
+            alt="Ledgerly"
+            style="
+                width: 350px;
+                height: auto;
+                object-fit: contain;
+                margin-bottom: -24px;
+            "
+        >
+
+        <div
+            style="
+                font-size: 28px;
+                font-weight: 500;
+                color: rgb(30, 30, 30);
+                margin-bottom: 12px;
+                text-align: center;
+            "
+        >
+            Добро пожаловать в Ledgerly
+        </div>
+
+        <div
+            style="
+                font-size: 16px;
+                line-height: 1.6;
+                color: rgb(110, 110, 110);
+                text-align: center;
+                max-width: 500px;
+            "
+        >
+            Выберите компанию из списка слева,
+            чтобы открыть её финансовую аналитику.
+        </div>
+    </div>
+</div>

@@ -99,3 +99,29 @@ def company_price(request, company_id):
         "company_id": company_id,
     },
 )
+
+def company_panel(request, company_id):
+    if "session" not in request.session:
+        return JsonResponse(
+            {"error": "Unauthorized"},
+            status=401,
+        )
+
+    company = Company.objects.filter(
+        id=company_id,
+        is_active=True,
+    ).first()
+
+    if not company:
+        return JsonResponse(
+            {"error": "Company not found"},
+            status=404,
+        )
+
+    return render(
+        request,
+        "Company_panel.html",
+        {
+            "company": company,
+        },
+    )
