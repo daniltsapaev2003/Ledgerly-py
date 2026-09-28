@@ -1,0 +1,19 @@
+<div
+    id="company-header-price"
+    hx-get="/company/{{ company_id }}/price/"
+    hx-trigger="load, every 3s"
+    hx-target="#company-header-price"
+    hx-swap="outerHTML"
+    style="
+        margin-left: auto;
+        font-size: 22px;
+        font-weight: 600;
+        color: rgb(30, 30, 30);
+    "
+>
+    {% if price != None %}
+        {{ price|floatformat:2 }} ₽
+    {% else %}
+        —
+    {% endif %}
+</div>
