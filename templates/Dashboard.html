@@ -167,15 +167,28 @@
 
                 {% endfor %}
                 
-                <script>
-                            const searchInput = document.getElementById("company-search");
-                            const companyItems = document.querySelectorAll(".company-item");
+               <script>
+    const searchInput = document.getElementById("company-search");
+    const companyItems = document.querySelectorAll(".company-item");
 
-                            searchInput.addEventListener("input", function () {
-                                const searchValue = this.value.toLowerCase().trim();
+    searchInput.addEventListener("input", function () {
+        const searchValue = this.value.toLowerCase().trim();
 
-                               
-                        </script>
+        companyItems.forEach(function (item) {
+            const ticker = item.dataset.ticker || "";
+            const name = item.dataset.name || "";
+
+            if (
+                ticker.includes(searchValue) ||
+                name.includes(searchValue)
+            ) {
+                item.style.display = "flex";
+            } else {
+                item.style.display = "none";
+            }
+        });
+    });
+</script>
 
 
             </div>
