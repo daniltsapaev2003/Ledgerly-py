@@ -98,7 +98,60 @@
         color: rgb(30, 30, 30);
     "
 >
-    
 </div>
     </div>
+
+        <div
+        id="company-content"
+        style="
+            width: 100%;
+            min-height: calc(100vh - 150px);
+            margin-top: 16px;
+            background: white;
+            border: 1px solid rgb(209, 213, 219);
+            border-radius: 14px;
+            box-sizing: border-box;
+            padding: 24px;
+        "
+    >
+
+        <div
+            id="company-description"
+            style="
+                width: 100%;
+                box-sizing: border-box;
+            "
+        >
+            <div
+                style="
+                    font-size: 16px;
+                    font-weight: 600;
+                    color: rgb(30, 30, 30);
+                    margin-bottom: 8px;
+                "
+            >
+                О компании: 
+            </div>
+
+            <div
+                style="
+                    font-size: 16px;
+                    line-height: 1.6;
+                    font-weight: 400;
+                    color: rgb(75, 75, 75);
+                "
+            >
+                {% if company.description %}
+                    {{ company.description }}
+                {% else %}
+                    No description available.
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Здесь позже будут финансовые показатели -->
+
+    </div>
+
+
 </div>
