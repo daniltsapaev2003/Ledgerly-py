@@ -171,6 +171,7 @@
     const searchInput = document.getElementById("company-search");
     const companyItems = document.querySelectorAll(".company-item");
 
+    // Поиск компаний
     searchInput.addEventListener("input", function () {
         const searchValue = this.value.toLowerCase().trim();
 
@@ -186,6 +187,20 @@
             } else {
                 item.style.display = "none";
             }
+        });
+    });
+
+    
+    companyItems.forEach(function (item) {
+        item.addEventListener("click", function () {
+
+            // Убираем выделение со всех компаний
+            companyItems.forEach(function (company) {
+                company.classList.remove("selected");
+            });
+
+            // Выделяем выбранную компанию
+            this.classList.add("selected");
         });
     });
 </script>
@@ -286,6 +301,26 @@
 
 
     </div>
+
+<script>
+    document.addEventListener("click", function (event) {
+        const button = event.target.closest(".year-button");
+
+        if (!button) {
+            return;
+        }
+
+        const yearButtons = document.querySelectorAll(".year-button");
+
+        yearButtons.forEach(function (item) {
+            item.classList.remove("selected");
+        });
+
+        button.classList.add("selected");
+    });
+</script>
+
+
 
 </main>
 
