@@ -159,7 +159,41 @@
     "
 ></div>
 
+<div
+    style="
+        width: 100%;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-top: 16px;
+    "
+>
+<button type="button" class="year-button">2020</button>
+<button type="button" class="year-button">2021</button>
+<button type="button" class="year-button">2022</button>
+<button type="button" class="year-button">2023</button>
+<button type="button" class="year-button">2024</button>
+<button type="button" class="year-button">2025</button>
+<button type="button" class="year-button selected">2026</button>
+</div>
+<script>
+    const yearButtons = document.querySelectorAll(".year-button");
+
+    yearButtons.forEach(function (button) {
+        button.addEventListener("click", function () {
+            yearButtons.forEach(function (item) {
+                item.classList.remove("selected");
+            });
+
+            this.classList.add("selected");
+        });
+    });
+</script>
+
+
+
+
+
+
     </div>
-
-
 </div>
