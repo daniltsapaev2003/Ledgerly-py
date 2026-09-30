@@ -156,3 +156,49 @@ class BalanceSheet(models.Model):
 
     def __str__(self):
         return f"Balance Sheet — {self.report}"
+
+class CashFlowStatement(models.Model):
+
+    report = models.OneToOneField(
+        FinancialReport,
+        on_delete=models.CASCADE,
+        related_name="cash_flow_statement"
+    )
+
+    operating_cash_flow = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True
+    )
+
+    investing_cash_flow = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True
+    )
+
+    financing_cash_flow = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True
+    )
+
+    capital_expenditures = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True
+    )
+
+    free_cash_flow = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+        null=True,
+        blank=True
+    )
+
+    def __str__(self):
+        return f"Cash Flow Statement — {self.report}"
