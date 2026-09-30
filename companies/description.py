@@ -1,8 +1,11 @@
+# ФАЙЛ ТОЛЬКО ДЛЯ РУЧНОГО ДОБАВЛЕНИЯ ОПИСАНИЯ К КОМПАНИЯМ ИЗ БАЗЫ ДАННЫХ
+
+
 import os
 import sys
 import django
 
-# Добавляем корень проекта в Python path
+
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings")

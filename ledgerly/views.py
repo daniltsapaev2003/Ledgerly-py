@@ -3,7 +3,7 @@ from .models import User
 from django.db import IntegrityError
 from django.contrib.auth.hashers import make_password 
 from django.contrib.auth.hashers import check_password
-from companies.models import Company
+from companies.models import Company, FinancialReport
 from ledgerly.models import User
 from django.http import JsonResponse
 def registration(request):
@@ -118,10 +118,24 @@ def company_panel(request, company_id):
             status=404,
         )
 
+    year = request.GET.get("year")
+
+    report = None
+
+    if year:
+        report = FinancialReport.objects.filter(
+            company=company,
+            year=year,
+            period="FY",
+        ).first()
+
     return render(
         request,
         "Company_panel.html",
         {
             "company": company,
+            "report": report,
+            "year": year,
+            "years": range(2020, 2027),
         },
     )
