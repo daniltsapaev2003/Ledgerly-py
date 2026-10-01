@@ -1,0 +1,191 @@
+import os
+import sys
+from pathlib import Path
+
+import django
+
+
+BASE_DIR = Path(__file__).resolve().parent.parent
+DATA_DIR = BASE_DIR / "static" / "financial_data"
+
+sys.path.insert(0, str(BASE_DIR))
+
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings")
+django.setup()
+
+from companies.models import (  # noqa: E402
+    Company,
+    FinancialReport,
+    IncomeStatement,
+    BalanceSheet,
+    CashFlowStatement,
+)
+
+
+INCOME_FIELDS = {
+    "revenue",
+    "cost_of_revenue",
+    "gross_profit",
+    "operating_profit",
+    "ebitda",
+    "net_income",
+}
+
+BALANCE_FIELDS = {
+    "cash_and_equivalents",
+    "total_assets",
+    "current_liabilities",
+    "total_liabilities",
+    "total_debt",
+    "equity",
+}
+
+CASH_FLOW_FIELDS = {
+    "operating_cash_flow",
+    "investing_cash_flow",
+    "financing_cash_flow",
+    "capital_expenditures",
+    "free_cash_flow",
+}
+
+
+def parse_filename(file_path):
+    parts = file_path.stem.split("_")
+
+    if len(parts) != 3:
+        raise ValueError(
+            f"Неверное имя файла: {file_path.name}. "
+            "Ожидается TICKER_YEAR_PERIOD.txt"
+        )
+
+    ticker, year, period = parts
+
+    if period not in {"FY", "Q1", "Q2", "Q3", "Q4"}:
+        raise ValueError(
+            f"{file_path.name}: неизвестный период {period}"
+        )
+
+    return ticker.upper(), int(year), period
+
+
+def parse_file(file_path):
+    data = {}
+
+    with file_path.open("r", encoding="utf-8") as file:
+        for line_number, line in enumerate(file, start=1):
+            line = line.strip()
+
+            if not line:
+                continue
+
+            if "=" not in line:
+                raise ValueError(
+                    f"{file_path.name}, строка {line_number}: "
+                    "ожидается формат key=value"
+                )
+
+            key, value = line.split("=", 1)
+
+            key = key.strip()
+            value = value.strip()
+
+            if key not in (
+                INCOME_FIELDS
+                | BALANCE_FIELDS
+                | CASH_FLOW_FIELDS
+            ):
+                raise ValueError(
+                    f"{file_path.name}, строка {line_number}: "
+                    f"неизвестное поле {key}"
+                )
+
+            data[key] = value
+
+    return data
+
+
+def convert_values(data):
+    result = {}
+
+    for key, value in data.items():
+        result[key] = value
+
+    return result
+
+
+def sync_file(file_path):
+    ticker, year, period = parse_filename(file_path)
+    data = parse_file(file_path)
+    data = convert_values(data)
+
+    company = Company.objects.filter(
+        ticker=ticker,
+        is_active=True,
+    ).first()
+
+    if not company:
+        print(
+            f"SKIP: компания {ticker} не найдена в базе"
+        )
+        return
+
+    report, created = FinancialReport.objects.update_or_create(
+        company=company,
+        year=year,
+        period=period,
+        defaults={},
+    )
+
+    IncomeStatement.objects.update_or_create(
+        report=report,
+        defaults={
+            field: data[field]
+            for field in INCOME_FIELDS
+            if field in data
+        },
+    )
+
+    BalanceSheet.objects.update_or_create(
+        report=report,
+        defaults={
+            field: data[field]
+            for field in BALANCE_FIELDS
+            if field in data
+        },
+    )
+
+    CashFlowStatement.objects.update_or_create(
+        report=report,
+        defaults={
+            field: data[field]
+            for field in CASH_FLOW_FIELDS
+            if field in data
+        },
+    )
+
+    action = "создан" if created else "обновлён"
+
+    print(
+        f"OK: {ticker} — {year} — {period} ({action})"
+    )
+
+
+def main():
+    files = sorted(DATA_DIR.glob("*.txt"))
+
+    print(f"Папка: {DATA_DIR}")
+    print(f"Найдено файлов: {len(files)}")
+    print()
+
+    for file_path in files:
+        try:
+            sync_file(file_path)
+
+        except Exception as error:
+            print(
+                f"ERROR: {file_path.name}: {error}"
+            )
+
+
+if __name__ == "__main__":
+    main()

@@ -1,4 +1,5 @@
 {% load static %}
+{% load financial %}
 
 <div
     id="company-panel"
@@ -172,7 +173,7 @@
         <button
             type="button"
             class="year-button {% if item_year|stringformat:'s' == year|stringformat:'s' %}selected{% endif %}"
-            hx-get="/company/{{ company.id }}/panel/?year={{ item_year }}"
+            hx-get="/company/{{ company.id }}/panel/?year={{ item_year }}&period={{ period }}"
             hx-target="#company-content"
             hx-swap="innerHTML"
         >
@@ -180,6 +181,39 @@
         </button>
     {% endfor %}
 </div>
+
+<div
+    style="
+        width: 100%;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-top: 8px;
+    "
+>
+    {% for item_period in periods %}
+        <button
+            type="button"
+            class="year-button {% if item_period == period %}selected{% endif %}"
+            hx-get="/company/{{ company.id }}/panel/?year={{ year }}&period={{ item_period }}"
+            hx-target="#company-content"
+            hx-swap="innerHTML"
+        >
+            {{ item_period }}
+        </button>
+    {% endfor %}
+</div>
+<div
+    style="
+        width: 100%;
+        height: 1px;
+        background: rgb(220, 220, 220);
+        margin-top: 20px;
+        margin-bottom: 20px;
+    "
+></div>
+
+{% include "fin_panel.html" %}
 
     </div>
 </div>

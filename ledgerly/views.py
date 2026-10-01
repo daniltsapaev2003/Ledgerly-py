@@ -119,23 +119,28 @@ def company_panel(request, company_id):
         )
 
     year = request.GET.get("year")
-
+    period = request.GET.get("period", "FY")
+    periods = ["Q1", "Q2", "Q3", "Q4", "FY"]
     report = None
 
     if year:
         report = FinancialReport.objects.filter(
-            company=company,
-            year=year,
-            period="FY",
+        company=company,
+        year=year,
+        period=period,
         ).first()
 
     return render(
-        request,
-        "Company_panel.html",
-        {
-            "company": company,
-            "report": report,
-            "year": year,
-            "years": range(2020, 2027),
-        },
-    )
+    request,
+    "Company_panel.html",
+    {
+        "company": company,
+        "report": report,
+        "year": year,
+        "period": period,
+        "years": range(2020, 2027),
+        "periods": periods,
+    },
+)
+
+    
