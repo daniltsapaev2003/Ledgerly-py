@@ -2,18 +2,19 @@
 
 {% if report %}
 
+
 <div
     style="
         width: 100%;
         display: grid;
-        grid-template-columns: 420px minmax(0, 1fr);
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
         gap: 24px;
         align-items: start;
         margin-top: 24px;
     "
 >
 
-    <!-- Левая колонка: финансовые показатели -->
+    <!-- Левая колонка -->
     <div
         style="
             width: 100%;
@@ -23,7 +24,7 @@
         "
     >
 
-        <!-- Income Statement -->
+        <!-- Отчёт о прибылях и убытках -->
         <div
             style="
                 width: 100%;
@@ -57,103 +58,73 @@
                 style="
                     display: flex;
                     flex-direction: column;
-                    gap: 10px;
                     text-align: left;
                 "
             >
-                <div>
-                    Выручка: {{ report.income_statement.revenue|financial }}
+                <div style="display:flex;align-items:center;padding:9px 0;border-bottom:1px solid rgb(235,235,235);">
+                    <span style="flex:1;">Выручка</span>
+                    <span style="width:100px;text-align:right;font-weight:600;">
+                        {{ report.income_statement.revenue|financial }}
+                    </span>
+                    <span style="width:70px;text-align:right;color:rgb(100,100,100);">
+                        —
+                    </span>
                 </div>
 
-                <div>
-                    Себестоимость: {{ report.income_statement.cost_of_revenue|financial }}
+                <div style="display:flex;align-items:center;padding:9px 0;border-bottom:1px solid rgb(235,235,235);">
+                    <span style="flex:1;">Себестоимость</span>
+                    <span style="width:100px;text-align:right;font-weight:600;">
+                        {{ report.income_statement.cost_of_revenue|financial }}
+                    </span>
+                    <span style="width:70px;text-align:right;color:rgb(100,100,100);">
+                        —
+                    </span>
                 </div>
 
-                <div>
-                    Валовая прибыль: {{ report.income_statement.gross_profit|financial }}
+                <div style="display:flex;align-items:center;padding:9px 0;border-bottom:1px solid rgb(235,235,235);">
+                    <span style="flex:1;">Валовая прибыль</span>
+                    <span style="width:100px;text-align:right;font-weight:600;">
+                        {{ report.income_statement.gross_profit|financial }}
+                    </span>
+                    <span style="width:70px;text-align:right;color:rgb(100,100,100);">
+                        —
+                    </span>
                 </div>
 
-                <div>
-                    Операционная прибыль: {{ report.income_statement.operating_profit|financial }}
+                <div style="display:flex;align-items:center;padding:9px 0;border-bottom:1px solid rgb(235,235,235);">
+                    <span style="flex:1;">Операционная прибыль</span>
+                    <span style="width:100px;text-align:right;font-weight:600;">
+                        {{ report.income_statement.operating_profit|financial }}
+                    </span>
+                    <span style="width:70px;text-align:right;color:rgb(100,100,100);">
+                        —
+                    </span>
                 </div>
 
-                <div>
-                    EBITDA: {{ report.income_statement.ebitda|financial }}
+                <div style="display:flex;align-items:center;padding:9px 0;border-bottom:1px solid rgb(235,235,235);">
+                    <span style="flex:1;">EBITDA</span>
+                    <span style="width:100px;text-align:right;font-weight:600;">
+                        {{ report.income_statement.ebitda|financial }}
+                    </span>
+                    <span style="width:70px;text-align:right;color:rgb(100,100,100);">
+                        —
+                    </span>
                 </div>
 
-                <div>
-                    Чистая прибыль: {{ report.income_statement.net_income|financial }}
+                <div style="display:flex;align-items:center;padding:9px 0;">
+                    <span style="flex:1;">Чистая прибыль</span>
+                    <span style="width:100px;text-align:right;font-weight:600;">
+                        {{ report.income_statement.net_income|financial }}
+                    </span>
+                    <span style="width:70px;text-align:right;color:rgb(100,100,100);">
+                        —
+                    </span>
                 </div>
             </div>
         </div>
 
 
-        <!-- Balance Sheet -->
-        <div
-            style="
-                width: 100%;
-                border: 1px solid rgb(220, 220, 220);
-                border-radius: 12px;
-                background: white;
-                padding: 20px;
-                box-sizing: border-box;
-            "
-        >
-            <div
-                style="
-                    width: 100%;
-                    text-align: center;
-                    margin-bottom: 16px;
-                "
-            >
-                <h3
-                    style="
-                        margin: 0;
-                        font-size: 17px;
-                        font-weight: 600;
-                        color: rgb(30, 30, 30);
-                    "
-                >
-                    Баланс
-                </h3>
-            </div>
-
-            <div
-                style="
-                    display: flex;
-                    flex-direction: column;
-                    gap: 10px;
-                    text-align: left;
-                "
-            >
-                <div>
-                    Денежные средства: {{ report.balance_sheet.cash_and_equivalents|financial }}
-                </div>
-
-                <div>
-                    Активы: {{ report.balance_sheet.total_assets|financial }}
-                </div>
-
-                <div>
-                    Краткосрочные обязательства: {{ report.balance_sheet.current_liabilities|financial }}
-                </div>
-
-                <div>
-                    Обязательства: {{ report.balance_sheet.total_liabilities|financial }}
-                </div>
-
-                <div>
-                    Общий долг: {{ report.balance_sheet.total_debt|financial }}
-                </div>
-
-                <div>
-                    Собственный капитал: {{ report.balance_sheet.equity|financial }}
-                </div>
-            </div>
-        </div>
-
-
-        <!-- Cash Flow Statement -->
+        <!-- Денежный поток -->
         <div
             style="
                 width: 100%;
@@ -187,33 +158,57 @@
                 style="
                     display: flex;
                     flex-direction: column;
-                    gap: 10px;
                     text-align: left;
                 "
             >
-                <div>
-                    Операционный денежный поток:
-                    {{ report.cash_flow_statement.operating_cash_flow|financial }}
+                <div style="display:flex;align-items:center;padding:9px 0;border-bottom:1px solid rgb(235,235,235);">
+                    <span style="flex:1;">Операционный денежный поток</span>
+                    <span style="width:100px;text-align:right;font-weight:600;">
+                        {{ report.cash_flow_statement.operating_cash_flow|financial }}
+                    </span>
+                    <span style="width:70px;text-align:right;color:rgb(100,100,100);">
+                        —
+                    </span>
                 </div>
 
-                <div>
-                    Инвестиционный денежный поток:
-                    {{ report.cash_flow_statement.investing_cash_flow|financial }}
+                <div style="display:flex;align-items:center;padding:9px 0;border-bottom:1px solid rgb(235,235,235);">
+                    <span style="flex:1;">Инвестиционный денежный поток</span>
+                    <span style="width:100px;text-align:right;font-weight:600;">
+                        {{ report.cash_flow_statement.investing_cash_flow|financial }}
+                    </span>
+                    <span style="width:70px;text-align:right;color:rgb(100,100,100);">
+                        —
+                    </span>
                 </div>
 
-                <div>
-                    Финансовый денежный поток:
-                    {{ report.cash_flow_statement.financing_cash_flow|financial }}
+                <div style="display:flex;align-items:center;padding:9px 0;border-bottom:1px solid rgb(235,235,235);">
+                    <span style="flex:1;">Финансовый денежный поток</span>
+                    <span style="width:100px;text-align:right;font-weight:600;">
+                        {{ report.cash_flow_statement.financing_cash_flow|financial }}
+                    </span>
+                    <span style="width:70px;text-align:right;color:rgb(100,100,100);">
+                        —
+                    </span>
                 </div>
 
-                <div>
-                    Капитальные затраты:
-                    {{ report.cash_flow_statement.capital_expenditures|financial }}
+                <div style="display:flex;align-items:center;padding:9px 0;border-bottom:1px solid rgb(235,235,235);">
+                    <span style="flex:1;">Капитальные затраты</span>
+                    <span style="width:100px;text-align:right;font-weight:600;">
+                        {{ report.cash_flow_statement.capital_expenditures|financial }}
+                    </span>
+                    <span style="width:70px;text-align:right;color:rgb(100,100,100);">
+                        —
+                    </span>
                 </div>
 
-                <div>
-                    Свободный денежный поток:
-                    {{ report.cash_flow_statement.free_cash_flow|financial }}
+                <div style="display:flex;align-items:center;padding:9px 0;">
+                    <span style="flex:1;">Свободный денежный поток</span>
+                    <span style="width:100px;text-align:right;font-weight:600;">
+                        {{ report.cash_flow_statement.free_cash_flow|financial }}
+                    </span>
+                    <span style="width:70px;text-align:right;color:rgb(100,100,100);">
+                        —
+                    </span>
                 </div>
             </div>
         </div>
@@ -221,18 +216,125 @@
     </div>
 
 
-    <!-- Правая колонка: графики -->
+    <!-- Правая колонка -->
     <div
         style="
             width: 100%;
-            min-height: 600px;
             display: flex;
             flex-direction: column;
             gap: 16px;
         "
     >
 
-        <!-- Графики добавим сюда позже -->
+        <!-- Баланс -->
+        <div
+            style="
+                width: 100%;
+                border: 1px solid rgb(220, 220, 220);
+                border-radius: 12px;
+                background: white;
+                padding: 20px;
+                box-sizing: border-box;
+            "
+        >
+            <div
+                style="
+                    width: 100%;
+                    text-align: center;
+                    margin-bottom: 16px;
+                "
+            >
+                <h3
+                    style="
+                        margin: 0;
+                        font-size: 17px;
+                        font-weight: 600;
+                        color: rgb(30, 30, 30);
+                    "
+                >
+                    Баланс
+                </h3>
+            </div>
+
+            <div
+                style="
+                    display: flex;
+                    flex-direction: column;
+                    text-align: left;
+                "
+            >
+                <div style="display:flex;align-items:center;padding:9px 0;border-bottom:1px solid rgb(235,235,235);">
+                    <span style="flex:1;">Денежные средства</span>
+                    <span style="width:100px;text-align:right;font-weight:600;">
+                        {{ report.balance_sheet.cash_and_equivalents|financial }}
+                    </span>
+                    <span style="width:70px;text-align:right;color:rgb(100,100,100);">
+                        —
+                    </span>
+                </div>
+
+                <div style="display:flex;align-items:center;padding:9px 0;border-bottom:1px solid rgb(235,235,235);">
+                    <span style="flex:1;">Активы</span>
+                    <span style="width:100px;text-align:right;font-weight:600;">
+                        {{ report.balance_sheet.total_assets|financial }}
+                    </span>
+                    <span style="width:70px;text-align:right;color:rgb(100,100,100);">
+                        —
+                    </span>
+                </div>
+
+                <div style="display:flex;align-items:center;padding:9px 0;border-bottom:1px solid rgb(235,235,235);">
+                    <span style="flex:1;">Краткосрочные обязательства</span>
+                    <span style="width:100px;text-align:right;font-weight:600;">
+                        {{ report.balance_sheet.current_liabilities|financial }}
+                    </span>
+                    <span style="width:70px;text-align:right;color:rgb(100,100,100);">
+                        —
+                    </span>
+                </div>
+
+                <div style="display:flex;align-items:center;padding:9px 0;border-bottom:1px solid rgb(235,235,235);">
+                    <span style="flex:1;">Обязательства</span>
+                    <span style="width:100px;text-align:right;font-weight:600;">
+                        {{ report.balance_sheet.total_liabilities|financial }}
+                    </span>
+                    <span style="width:70px;text-align:right;color:rgb(100,100,100);">
+                        —
+                    </span>
+                </div>
+
+                <div style="display:flex;align-items:center;padding:9px 0;border-bottom:1px solid rgb(235,235,235);">
+                    <span style="flex:1;">Общий долг</span>
+                    <span style="width:100px;text-align:right;font-weight:600;">
+                        {{ report.balance_sheet.total_debt|financial }}
+                    </span>
+                    <span style="width:70px;text-align:right;color:rgb(100,100,100);">
+                        —
+                    </span>
+                </div>
+
+                <div style="display:flex;align-items:center;padding:9px 0;">
+                    <span style="flex:1;">Собственный капитал</span>
+                    <span style="width:100px;text-align:right;font-weight:600;">
+                        {{ report.balance_sheet.equity|financial }}
+                    </span>
+                    <span style="width:70px;text-align:right;color:rgb(100,100,100);">
+                        —
+                    </span>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Место под будущий блок -->
+        <div
+            style="
+                width: 100%;
+                min-height: 300px;
+            "
+        >
+            <!-- Здесь позже разместим графики / другой блок -->
+        </div>
 
     </div>
 
