@@ -100,6 +100,87 @@ def company_price(request, company_id):
     },
 )
 
+from decimal import Decimal
+
+
+def calculate_change(current, previous):
+    if current is None or previous is None:
+        return None
+
+    current = Decimal(current)
+    previous = Decimal(previous)
+
+    if previous == 0:
+        return None
+
+    return (current - previous) / abs(previous) * Decimal("100")
+
+
+def get_statement(report, related_name):
+    if not report:
+        return None
+
+    try:
+        return getattr(report, related_name)
+    except Exception:
+        return None
+
+
+def build_changes(report, previous_report):
+    if not report or not previous_report:
+        return {}
+
+    sections = {
+        "income": "income_statement",
+        "balance": "balance_sheet",
+        "cash_flow": "cash_flow_statement",
+    }
+
+    fields = {
+        "income": [
+            "revenue",
+            "cost_of_revenue",
+            "gross_profit",
+            "operating_profit",
+            "ebitda",
+            "net_income",
+        ],
+        "balance": [
+            "cash_and_equivalents",
+            "total_assets",
+            "current_liabilities",
+            "total_liabilities",
+            "total_debt",
+            "equity",
+        ],
+        "cash_flow": [
+            "operating_cash_flow",
+            "investing_cash_flow",
+            "financing_cash_flow",
+            "capital_expenditures",
+            "free_cash_flow",
+        ],
+    }
+
+    changes = {}
+
+    for section, related_name in sections.items():
+        current_data = get_statement(report, related_name)
+        previous_data = get_statement(previous_report, related_name)
+
+        changes[section] = {}
+
+        for field in fields[section]:
+            current_value = getattr(current_data, field, None)
+            previous_value = getattr(previous_data, field, None)
+
+            changes[section][field] = calculate_change(
+                current_value,
+                previous_value,
+            )
+    return changes
+
+
 def company_panel(request, company_id):
     if "session" not in request.session:
         return JsonResponse(
@@ -120,27 +201,44 @@ def company_panel(request, company_id):
 
     year = request.GET.get("year")
     period = request.GET.get("period", "FY")
+
     periods = ["Q1", "Q2", "Q3", "Q4", "FY"]
+
     report = None
+    previous_report = None
+    changes = {}
 
     if year:
+        year = int(year)
+
         report = FinancialReport.objects.filter(
-        company=company,
-        year=year,
-        period=period,
+            company=company,
+            year=year,
+            period=period,
         ).first()
 
-    return render(
-    request,
-    "Company_panel.html",
-    {
-        "company": company,
-        "report": report,
-        "year": year,
-        "period": period,
-        "years": range(2020, 2027),
-        "periods": periods,
-    },
-)
+        previous_report = FinancialReport.objects.filter(
+            company=company,
+            year=year - 1,
+            period=period,
+        ).first()
 
-    
+        changes = build_changes(
+            report,
+            previous_report,
+        )
+
+    return render(
+        request,
+        "Company_panel.html",
+        {
+            "company": company,
+            "report": report,
+            "previous_report": previous_report,
+            "changes": changes,
+            "year": year,
+            "period": period,
+            "years": range(2020, 2027),
+            "periods": periods,
+        },
+    )

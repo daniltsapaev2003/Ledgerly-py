@@ -66,9 +66,21 @@
                     <span style="width:100px;text-align:right;font-weight:600;">
                         {{ report.income_statement.revenue|financial }}
                     </span>
-                    <span style="width:70px;text-align:right;color:rgb(100,100,100);">
-                        —
-                    </span>
+                    {% if changes.income.revenue is None %}
+                            <span style="width:70px; text-align:right; font-weight:500; color:rgb(100,100,100);">
+                        {% elif changes.income.revenue > 0 %}
+                            <span style="width:70px; text-align:right; font-weight:500; color:rgb(22,163,74);">
+                        {% elif changes.income.revenue < 0 %}
+                            <span style="width:70px; text-align:right; font-weight:500; color:rgb(220,38,38);">
+                        {% else %}
+                            <span style="width:70px; text-align:right; font-weight:500; color:rgb(100,100,100);">
+                        {% endif %}
+                            {% if changes.income.revenue != None %}
+                                {% if changes.income.revenue > 0 %}+{% endif %}{{ changes.income.revenue|floatformat:1 }}%
+                            {% else %}
+                                —
+                            {% endif %}
+                        </span>
                 </div>
 
                 <div style="display:flex;align-items:center;padding:9px 0;border-bottom:1px solid rgb(235,235,235);">
@@ -76,9 +88,21 @@
                     <span style="width:100px;text-align:right;font-weight:600;">
                         {{ report.income_statement.cost_of_revenue|financial }}
                     </span>
-                    <span style="width:70px;text-align:right;color:rgb(100,100,100);">
-                        —
-                    </span>
+                    {% if changes.income.cost_of_revenue is None %}
+                            <span style="width:70px; text-align:right; font-weight:500; color:rgb(100,100,100);">
+                        {% elif changes.income.cost_of_revenue > 0 %}
+                            <span style="width:70px; text-align:right; font-weight:500; color:rgb(22,163,74);">
+                        {% elif changes.income.cost_of_revenue < 0 %}
+                            <span style="width:70px; text-align:right; font-weight:500; color:rgb(220,38,38);">
+                        {% else %}
+                            <span style="width:70px; text-align:right; font-weight:500; color:rgb(100,100,100);">
+                        {% endif %}
+                            {% if changes.income.cost_of_revenue != None %}
+                                {% if changes.income.cost_of_revenue > 0 %}+{% endif %}{{ changes.income.cost_of_revenue|floatformat:1 }}%
+                            {% else %}
+                                —
+                            {% endif %}
+                        </span>
                 </div>
 
                 <div style="display:flex;align-items:center;padding:9px 0;border-bottom:1px solid rgb(235,235,235);">
@@ -86,9 +110,22 @@
                     <span style="width:100px;text-align:right;font-weight:600;">
                         {{ report.income_statement.gross_profit|financial }}
                     </span>
-                    <span style="width:70px;text-align:right;color:rgb(100,100,100);">
-                        —
-                    </span>
+                    
+                    {% if changes.income.gross_profit is None %}
+                            <span style="width:70px; text-align:right; font-weight:500; color:rgb(100,100,100);">
+                        {% elif changes.income.gross_profit > 0 %}
+                            <span style="width:70px; text-align:right; font-weight:500; color:rgb(22,163,74);">
+                        {% elif changes.income.gross_profit < 0 %}
+                            <span style="width:70px; text-align:right; font-weight:500; color:rgb(220,38,38);">
+                        {% else %}
+                            <span style="width:70px; text-align:right; font-weight:500; color:rgb(100,100,100);">
+                        {% endif %}
+                            {% if changes.income.gross_profit != None %}
+                                {% if changes.income.gross_profit > 0 %}+{% endif %}{{ changes.income.gross_profit|floatformat:1 }}%
+                            {% else %}
+                                —
+                            {% endif %}
+                        </span>
                 </div>
 
                 <div style="display:flex;align-items:center;padding:9px 0;border-bottom:1px solid rgb(235,235,235);">
@@ -96,9 +133,21 @@
                     <span style="width:100px;text-align:right;font-weight:600;">
                         {{ report.income_statement.operating_profit|financial }}
                     </span>
-                    <span style="width:70px;text-align:right;color:rgb(100,100,100);">
-                        —
-                    </span>
+                    {% if changes.income.operating_profit is None %}
+                            <span style="width:70px; text-align:right; font-weight:500; color:rgb(100,100,100);">
+                        {% elif changes.income.operating_profit > 0 %}
+                            <span style="width:70px; text-align:right; font-weight:500; color:rgb(22,163,74);">
+                        {% elif changes.income.operating_profit < 0 %}
+                            <span style="width:70px; text-align:right; font-weight:500; color:rgb(220,38,38);">
+                        {% else %}
+                            <span style="width:70px; text-align:right; font-weight:500; color:rgb(100,100,100);">
+                        {% endif %}
+                            {% if changes.income.operating_profit != None %}
+                                {% if changes.income.operating_profit > 0 %}+{% endif %}{{ changes.income.operating_profit|floatformat:1 }}%
+                            {% else %}
+                                —
+                            {% endif %}
+                        </span>
                 </div>
 
                 <div style="display:flex;align-items:center;padding:9px 0;border-bottom:1px solid rgb(235,235,235);">
@@ -106,9 +155,22 @@
                     <span style="width:100px;text-align:right;font-weight:600;">
                         {{ report.income_statement.ebitda|financial }}
                     </span>
-                    <span style="width:70px;text-align:right;color:rgb(100,100,100);">
-                        —
-                    </span>
+
+                        {% if changes.income.ebitda is None %}
+                            <span style="width:70px; text-align:right; font-weight:500; color:rgb(100,100,100);">
+                        {% elif changes.income.ebitda > 0 %}
+                            <span style="width:70px; text-align:right; font-weight:500; color:rgb(22,163,74);">
+                        {% elif changes.income.ebitda < 0 %}
+                            <span style="width:70px; text-align:right; font-weight:500; color:rgb(220,38,38);">
+                        {% else %}
+                            <span style="width:70px; text-align:right; font-weight:500; color:rgb(100,100,100);">
+                        {% endif %}
+                            {% if changes.income.ebitda != None %}
+                                {% if changes.income.ebitda > 0 %}+{% endif %}{{ changes.income.ebitda|floatformat:1 }}%
+                            {% else %}
+                                —
+                            {% endif %}
+                        </span>
                 </div>
 
                 <div style="display:flex;align-items:center;padding:9px 0;">
@@ -116,9 +178,23 @@
                     <span style="width:100px;text-align:right;font-weight:600;">
                         {{ report.income_statement.net_income|financial }}
                     </span>
-                    <span style="width:70px;text-align:right;color:rgb(100,100,100);">
-                        —
-                    </span>
+                    
+                        {% if changes.income.net_income is None %}
+                            <span style="width:70px; text-align:right; font-weight:500; color:rgb(100,100,100);">
+                        {% elif changes.income.net_income > 0 %}
+                            <span style="width:70px; text-align:right; font-weight:500; color:rgb(22,163,74);">
+                        {% elif changes.income.net_income < 0 %}
+                            <span style="width:70px; text-align:right; font-weight:500; color:rgb(220,38,38);">
+                        {% else %}
+                            <span style="width:70px; text-align:right; font-weight:500; color:rgb(100,100,100);">
+                        {% endif %}
+        
+                            {% if changes.income.net_income != None %}
+                                {% if changes.income.net_income > 0 %}+{% endif %}{{ changes.income.net_income|floatformat:1 }}%
+                            {% else %}
+                                —
+                            {% endif %}
+                        </span>
                 </div>
             </div>
         </div>

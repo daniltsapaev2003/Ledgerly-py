@@ -13,3 +13,6 @@ def dashboard(request):
         "dashboard.html",
         {"companies": companies},
     )
+
+from decimal import Decimal
+
