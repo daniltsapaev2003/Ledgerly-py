@@ -103,20 +103,9 @@ def parse_file(file_path):
 
     return data
 
-
-def convert_values(data):
-    result = {}
-
-    for key, value in data.items():
-        result[key] = value
-
-    return result
-
-
 def sync_file(file_path):
     ticker, year, period = parse_filename(file_path)
     data = parse_file(file_path)
-    data = convert_values(data)
 
     company = Company.objects.filter(
         ticker=ticker,
@@ -163,7 +152,10 @@ def sync_file(file_path):
         },
     )
 
-    action = "создан" if created else "обновлён"
+    if created:
+        action = "создан"
+    else:
+        action = "обновлён"
 
     print(
         f"OK: {ticker} — {year} — {period} ({action})"
