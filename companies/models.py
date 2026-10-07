@@ -202,3 +202,54 @@ class CashFlowStatement(models.Model):
 
     def __str__(self):
         return f"Cash Flow Statement — {self.report}"
+
+class Dividend(models.Model):
+    PERIOD_CHOICES = [
+        ("Q1", "Q1"),
+        ("Q2", "Q2"),
+        ("Q3", "Q3"),
+        ("Q4", "Q4"),
+        ("FY", "Full Year"),
+    ]
+
+    company = models.ForeignKey(
+        Company,
+        on_delete=models.CASCADE,
+        related_name="dividends",
+    )
+
+    year = models.PositiveIntegerField()
+
+    period = models.CharField(
+        max_length=2,
+        choices=PERIOD_CHOICES,
+    )
+
+    amount = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+    )
+
+    payment_date = models.DateField(
+        null=True,
+        blank=True,
+    )
+
+    created_at = models.DateTimeField(
+        auto_now_add=True,
+    )
+
+    updated_at = models.DateTimeField(
+        auto_now=True,
+    )
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=["company", "year", "period"],
+                name="unique_company_dividend_period",
+            )
+        ]
+
+    def __str__(self):
+        return f"{self.company.ticker} — {self.year} — {self.period}"

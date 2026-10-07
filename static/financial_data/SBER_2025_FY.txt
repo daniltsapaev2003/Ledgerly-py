@@ -17,3 +17,6 @@ investing_cash_flow=-100000000
 financing_cash_flow=-50000000
 capital_expenditures=-80000000
 free_cash_flow=220000000
+
+dividend=300
+payment_date=20.07.2026

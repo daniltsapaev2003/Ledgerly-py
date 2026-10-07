@@ -1,7 +1,7 @@
 import os
 import sys
 from pathlib import Path
-
+from datetime import datetime
 import django
 
 
@@ -13,14 +13,19 @@ sys.path.insert(0, str(BASE_DIR))
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings")
 django.setup()
 
-from companies.models import (  # noqa: E402
+from companies.models import (
     Company,
     FinancialReport,
     IncomeStatement,
     BalanceSheet,
     CashFlowStatement,
+    Dividend,
 )
 
+DIVIDEND_FIELDS = {
+    "dividend",
+    "payment_date",
+}
 
 INCOME_FIELDS = {
     "revenue",
@@ -90,10 +95,11 @@ def parse_file(file_path):
             value = value.strip()
 
             if key not in (
-                INCOME_FIELDS
-                | BALANCE_FIELDS
-                | CASH_FLOW_FIELDS
-            ):
+                 INCOME_FIELDS
+                 | BALANCE_FIELDS
+                 | CASH_FLOW_FIELDS
+                 | DIVIDEND_FIELDS
+                ):
                 raise ValueError(
                     f"{file_path.name}, строка {line_number}: "
                     f"неизвестное поле {key}"
@@ -151,6 +157,25 @@ def sync_file(file_path):
             if field in data
         },
     )
+
+
+    if "dividend" in data:
+      Dividend.objects.update_or_create(
+        company=company,
+        year=year,
+        period=period,
+        defaults={
+            "amount": data["dividend"],
+            "payment_date": (
+                datetime.strptime(
+                    data["payment_date"],
+                    "%d.%m.%Y",
+                ).date()
+                if "payment_date" in data
+                else None
+            ),
+        },
+      )
 
     if created:
         action = "создан"
