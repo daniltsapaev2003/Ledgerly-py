@@ -1,49 +1,157 @@
 <div
-    id="dividends-panel"
     style="
         width: 100%;
+        border: 1px solid rgb(220, 220, 220);
+        border-radius: 12px;
         background: white;
-        border: 1px solid rgb(209, 213, 219);
-        border-radius: 14px;
         padding: 20px;
         box-sizing: border-box;
+      
     "
 >
     <div
         style="
-            font-size: 18px;
-            font-weight: 600;
-            color: rgb(30, 30, 30);
+            width: 100%;
+            text-align: center;
             margin-bottom: 16px;
         "
     >
-        Примерный дивиденд
-    </div>
-
-    <div
-        style="
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        "
-    >
-        <span
+        <h3
             style="
-                font-size: 14px;
-                color: rgb(110, 110, 110);
-            "
-        >
-            Прогноз на акцию
-        </span>
-
-        <span
-            style="
-                font-size: 22px;
+                margin: 0;
+                font-size: 17px;
                 font-weight: 600;
                 color: rgb(30, 30, 30);
             "
         >
-            —
-        </span>
+            Дивиденды
+        </h3>
     </div>
+
+    {% if dividends %}
+
+        <div
+            style="
+                display: flex;
+                flex-direction: column;
+            "
+        >
+
+            {% for dividend in dividends %}
+
+                {% if dividend.is_paid %}
+
+                    <div
+                        style="
+                            display: flex;
+                            align-items: center;
+                            padding: 9px 0;
+                            {% if not forloop.last %}
+                                border-bottom: 1px solid rgb(235, 235, 235);
+                            {% endif %}
+                        "
+                    >
+                        <span
+                            style="
+                                flex: 1;
+                                color: rgb(30, 30, 30);
+                            "
+                        >
+                            {{ dividend.label }}
+                        </span>
+
+                        <span
+                            style="
+                                width: 90px;
+                                text-align: right;
+                                font-weight: 600;
+                                color: rgb(30, 30, 30);
+                            "
+                        >
+                            {{ dividend.amount }} ₽
+                        </span>
+
+                        <span
+                            style="
+                                width: 100px;
+                                text-align: right;
+                                color: rgb(30, 30, 30);
+                            "
+                        >
+                            {% if dividend.payment_date %}
+                                {{ dividend.payment_date|date:"d.m.Y" }}
+                            {% else %}
+                                —
+                            {% endif %}
+                        </span>
+                    </div>
+
+                {% else %}
+
+                    <div
+                        style="
+                            display: flex;
+                            align-items: center;
+                            padding: 9px 0;
+                            {% if not forloop.last %}
+                                border-bottom: 1px solid rgb(235, 235, 235);
+                            {% endif %}
+                        "
+                    >
+                        <span
+                            style="
+                                flex: 1;
+                                color: rgb(22, 163, 74);
+                            "
+                        >
+                            {{ dividend.label }}
+                        </span>
+
+                        <span
+                            style="
+                                width: 90px;
+                                text-align: right;
+                                font-weight: 600;
+                                color: rgb(22, 163, 74);
+                            "
+                        >
+                            {{ dividend.amount }} ₽
+                        </span>
+
+                        <span
+                            style="
+                                width: 100px;
+                                text-align: right;
+                                color: rgb(22, 163, 74);
+                            "
+                        >
+                            {% if dividend.payment_date %}
+                                {{ dividend.payment_date|date:"d.m.Y" }}
+                            {% else %}
+                                —
+                            {% endif %}
+                        </span>
+                    </div>
+
+                {% endif %}
+
+            {% endfor %}
+
+        </div>
+
+    {% else %}
+
+        <div
+            style="
+                width: 100%;
+                padding: 10px 0;
+                text-align: center;
+                color: rgb(100, 100, 100);
+                font-size: 14px;
+            "
+        >
+            Нет данных о дивидендах
+        </div>
+
+    {% endif %}
 </div>

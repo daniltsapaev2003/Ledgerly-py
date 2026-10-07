@@ -6,6 +6,7 @@ from django.contrib.auth.hashers import check_password
 from companies.models import Company, FinancialReport
 from ledgerly.models import User
 from django.http import JsonResponse
+from dividendforecast.dividend import build_dividend_table
 def registration(request):
     if request.method == "POST":
         try:
@@ -198,7 +199,8 @@ def company_panel(request, company_id):
             {"error": "Company not found"},
             status=404,
         )
-
+    
+    dividends = build_dividend_table(company)
     year = request.GET.get("year")
     period = request.GET.get("period", "FY")
 
@@ -240,5 +242,6 @@ def company_panel(request, company_id):
             "period": period,
             "years": range(2020, 2027),
             "periods": periods,
+            "dividends": dividends,
         },
     )
