@@ -160,7 +160,7 @@
     "
 ></div>
 
-<div id="financial-section">
+<div id="reports-section">
 <div
     style="
         width: 100%;
@@ -214,24 +214,46 @@
     "
 ></div>
 
-{% include "fin_panel.html" %}
+     {% include "fin_panel.html" %}
 
+</div>
+
+<div
+    id="graphs-section"
+    style="
+        display: none;
+        width: 100%;
+    "
+>
+    {% include "income.html" %}
+
+    <div style="height: 20px;"></div>
+
+    {% include "balance.html" %}
+
+    <div style="height: 20px;"></div>
+
+    {% include "cash_flow.html" %}
+</div>
     </div>
 
 <script>
     document.addEventListener("keydown", function (event) {
-        const financialSection = document.getElementById("financial-section");
+        const reportsSection = document.getElementById("reports-section");
+        const graphsSection = document.getElementById("graphs-section");
 
-        if (!financialSection) {
+        if (!reportsSection || !graphsSection) {
             return;
         }
 
         if (event.key === "ArrowRight") {
-            financialSection.style.display = "none";
+            reportsSection.style.display = "none";
+            graphsSection.style.display = "block";
         }
 
         if (event.key === "ArrowLeft") {
-            financialSection.style.display = "block";
+            graphsSection.style.display = "none";
+            reportsSection.style.display = "block";
         }
     });
 </script>

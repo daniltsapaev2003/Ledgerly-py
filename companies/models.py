@@ -253,3 +253,47 @@ class Dividend(models.Model):
 
     def __str__(self):
         return f"{self.company.ticker} — {self.year} — {self.period}"
+
+
+class AnalystForecast(models.Model):
+
+    RECOMMENDATION_CHOICES = [
+        ("BUY", "BUY"),
+        ("HOLD", "HOLD"),
+        ("SELL", "SELL"),
+    ]
+
+    company = models.ForeignKey(
+        Company,
+        on_delete=models.CASCADE,
+        related_name="analyst_forecasts",
+    )
+
+    analyst_group = models.CharField(
+        max_length=255,
+    )
+
+    recommendation = models.CharField(
+        max_length=4,
+        choices=RECOMMENDATION_CHOICES,
+    )
+
+    target_price = models.DecimalField(
+        max_digits=20,
+        decimal_places=2,
+    )
+
+    created_at = models.DateTimeField(
+        auto_now_add=True,
+    )
+
+    updated_at = models.DateTimeField(
+        auto_now=True,
+    )
+
+    def __str__(self):
+        return (
+            f"{self.company.ticker} — "
+            f"{self.analyst_group} — "
+            f"{self.recommendation}"
+        )

@@ -1,7 +1,8 @@
 from django.contrib import admin
 from django.urls import path
 from django.views.generic import TemplateView
-from ledgerly.views import(
+from company_graphs.views import (income_chart_data,balance_chart_data,cash_flow_chart_data)
+from ledgerly.views import (
     CheckUser,
     registration,
     logout,
@@ -18,5 +19,8 @@ urlpatterns = [
     path("logout/", logout, name="logout"),
     path("company/<int:company_id>/price/",company_price,name="company_price",),
     path("company/<int:company_id>/panel/",company_panel,name="company_panel",),
+    path("company/<int:company_id>/chart/income/",income_chart_data,name="income_chart_data",),
+    path("company/<int:company_id>/chart/balance/",balance_chart_data,name="balance_chart_data",),
+    path("company/<int:company_id>/chart/cash-flow/",cash_flow_chart_data,name="cash_flow_chart_data",),
 ]
 

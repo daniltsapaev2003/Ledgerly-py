@@ -1,0 +1,169 @@
+{% load static %}
+
+<div
+    id="balance-chart-card"
+    style="
+        width: 100%;
+        border: 1px solid rgb(220, 220, 220);
+        border-radius: 12px;
+        background: white;
+        padding: 20px;
+        box-sizing: border-box;
+    "
+>
+    <div
+        style="
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        "
+    >
+        <div
+            style="
+                font-size: 18px;
+                font-weight: 600;
+                color: rgb(30, 30, 30);
+            "
+        >
+            Баланс
+        </div>
+
+        <select
+            id="balance-chart-period"
+            style="
+                height: 34px;
+                padding: 0 10px;
+                border: 1px solid rgb(210, 210, 210);
+                border-radius: 7px;
+                background: white;
+                font-size: 13px;
+                outline: none;
+            "
+        >
+            <option value="FY">FY</option>
+            <option value="Q">Q</option>
+        </select>
+    </div>
+
+    <div
+        style="
+            width: 100%;
+            height: 400px;
+        "
+    >
+        <canvas id="balance-chart"></canvas>
+    </div>
+</div>
+
+{{ balance_chart|json_script:"balance-chart-data" }}
+
+<script>
+(function () {
+    const balanceChartData = JSON.parse(
+        document.getElementById("balance-chart-data").textContent
+    );
+
+    const labels = balanceChartData.data.map(
+        item => item.label
+    );
+
+    const datasets = balanceChartData.series.map(
+        (series, index) => ({
+            label: series.label,
+
+            data: balanceChartData.data.map(
+                item => Number(item[series.key])
+            ),
+
+            backgroundColor: [
+                "#2563eb",
+                "#dc2626",
+                "#16a34a",
+                "#9333ea",
+                "#ea580c",
+                "#0891b2"
+            ][index],
+
+            borderWidth: 0
+        })
+    );
+
+    const chart = new Chart(
+        document.getElementById("balance-chart"),
+        {
+            type: "bar",
+
+            data: {
+                labels: labels,
+                datasets: datasets
+            },
+
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+
+                scales: {
+                    x: {
+                        stacked: false
+                    },
+
+                    y: {
+                        beginAtZero: true
+                    }
+                },
+
+                plugins: {
+                    legend: {
+                        position: "bottom"
+                    }
+                }
+            }
+        }
+    );
+
+    document
+        .getElementById("balance-chart-period")
+        .addEventListener("change", async function () {
+            const mode = this.value;
+
+            const companyId = "{{ company.id }}";
+
+            const response = await fetch(
+                `/company/${companyId}/chart/balance/?mode=${mode}`
+            );
+
+            const newChartData = await response.json();
+
+            const newLabels = newChartData.data.map(
+                item => item.label
+            );
+
+            const newDatasets = newChartData.series.map(
+                (series, index) => ({
+                    label: series.label,
+
+                    data: newChartData.data.map(
+                        item => Number(item[series.key])
+                    ),
+
+                    backgroundColor: [
+                        "#2563eb",
+                        "#dc2626",
+                        "#16a34a",
+                        "#9333ea",
+                        "#ea580c",
+                        "#0891b2"
+                    ][index],
+
+                    borderWidth: 0
+                })
+            );
+
+            chart.data.labels = newLabels;
+            chart.data.datasets = newDatasets;
+
+            chart.update();
+        });
+})();
+</script>

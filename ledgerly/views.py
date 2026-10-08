@@ -7,6 +7,10 @@ from companies.models import Company, FinancialReport
 from ledgerly.models import User
 from django.http import JsonResponse
 from dividendforecast.dividend import build_dividend_table
+from company_graphs.income import build_income_chart
+from company_graphs.balance import build_balance_chart
+from company_graphs.cash_flow import build_cash_flow_chart
+
 def registration(request):
     if request.method == "POST":
         try:
@@ -230,6 +234,21 @@ def company_panel(request, company_id):
             previous_report,
         )
 
+    chart_mode = request.GET.get("chart_mode", "FY")
+    balance_chart = build_balance_chart(
+        company,
+        "FY",
+    )
+    income_chart = build_income_chart(
+        company,
+        chart_mode,
+    )
+
+    cash_flow_chart = build_cash_flow_chart(
+        company,
+        "FY",
+    )
+
     return render(
         request,
         "Company_panel.html",
@@ -243,5 +262,8 @@ def company_panel(request, company_id):
             "years": range(2020, 2027),
             "periods": periods,
             "dividends": dividends,
+            "income_chart": income_chart,
+            "balance_chart": balance_chart,
+            "cash_flow_chart": cash_flow_chart,
         },
     )
