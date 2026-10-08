@@ -160,6 +160,7 @@
     "
 ></div>
 
+<div id="financial-section">
 <div
     style="
         width: 100%;
@@ -215,5 +216,24 @@
 
 {% include "fin_panel.html" %}
 
+    </div>
+
+<script>
+    document.addEventListener("keydown", function (event) {
+        const financialSection = document.getElementById("financial-section");
+
+        if (!financialSection) {
+            return;
+        }
+
+        if (event.key === "ArrowRight") {
+            financialSection.style.display = "none";
+        }
+
+        if (event.key === "ArrowLeft") {
+            financialSection.style.display = "block";
+        }
+    });
+</script>
     </div>
 </div>
