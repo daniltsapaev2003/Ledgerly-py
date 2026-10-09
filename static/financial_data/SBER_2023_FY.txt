@@ -1,22 +1,22 @@
-revenue=80000000
-cost_of_revenue=50000000
-gross_profit=30000000
-operating_profit=22000000
-ebitda=26000000
-net_income=18000000
+revenue=3428000000000
+cost_of_revenue=924400000000
+gross_profit=2503600000000
+operating_profit=2268200000000
+ebitda=2268200000000
+net_income=1509000000000
 
-cash_and_equivalents=8000000
-total_assets=130000000
-current_liabilities=18000000
-total_liabilities=65000000
-total_debt=38000000
-equity=65000000
+cash_and_equivalents=0
+total_assets=52307000000000
+current_liabilities=45723000000000
+total_liabilities=45723000000000
+total_debt=0
+equity=6584000000000
 
-operating_cash_flow=21000000
-investing_cash_flow=-90000000
-financing_cash_flow=-4000000
-capital_expenditures=-7000000
-free_cash_flow=180000000
+operating_cash_flow=0
+investing_cash_flow=0
+financing_cash_flow=0
+capital_expenditures=0
+free_cash_flow=0
 
-dividend=200
-payment_date=17.07.2026
+dividend=33.30
+payment_date=25.07.2024

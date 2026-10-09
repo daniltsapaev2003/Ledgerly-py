@@ -1,9 +1,9 @@
-revenue=1105000000000
-cost_of_revenue=292900000000
-gross_profit=812100000000
+revenue=926000000000
+cost_of_revenue=373800000000
+gross_profit=552200000000
 operating_profit=0
 ebitda=0
-net_income=422600000000
+net_income=398600000000
 
 cash_and_equivalents=0
 total_assets=0
@@ -17,4 +17,5 @@ investing_cash_flow=0
 financing_cash_flow=0
 capital_expenditures=0
 free_cash_flow=0
+
 

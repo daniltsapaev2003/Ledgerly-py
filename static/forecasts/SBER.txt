@@ -1,1 +1,7 @@
-SBERCIB=HOLD=270
+T-Investments=BUY=420
+Alfa-Bank=BUY=390
+Finam=BUY=384
+Ingosstrakh-Investments=HOLD=350
+Renaissance Capital=BUY=400
+BCS=BUY=310
+AVICapital=HOLD=295
