@@ -10,6 +10,7 @@ from dividendforecast.dividend import build_dividend_table
 from company_graphs.income import build_income_chart
 from company_graphs.balance import build_balance_chart
 from company_graphs.cash_flow import build_cash_flow_chart
+from company_graphs.analyst_forecasts import build_analyst_forecasts
 
 def registration(request):
     if request.method == "POST":
@@ -248,6 +249,9 @@ def company_panel(request, company_id):
         company,
         "FY",
     )
+    analyst_forecasts = build_analyst_forecasts(
+    company,
+    )
 
     return render(
         request,
@@ -265,5 +269,6 @@ def company_panel(request, company_id):
             "income_chart": income_chart,
             "balance_chart": balance_chart,
             "cash_flow_chart": cash_flow_chart,
+            "analyst_forecasts": analyst_forecasts,
         },
     )

@@ -1,5 +1,7 @@
-from companies.models import FinancialReport
-
+from companies.models import (
+    FinancialReport,
+    AnalystForecast,
+)
 
 def get_income_chart_data(company, mode="FY"):
     reports = FinancialReport.objects.filter(
@@ -217,3 +219,13 @@ def get_cash_flow_chart_data(company, mode="FY"):
 )
 
     return result
+
+
+def get_analyst_forecasts(company):
+    forecasts = AnalystForecast.objects.filter(
+        company=company,
+    ).order_by(
+        "analyst_group",
+    )
+
+    return forecasts

@@ -7,6 +7,7 @@ import django
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 DATA_DIR = BASE_DIR / "static" / "financial_data"
+FORECASTS_DIR = BASE_DIR / "static" / "forecasts"
 
 sys.path.insert(0, str(BASE_DIR))
 
@@ -20,8 +21,8 @@ from companies.models import (
     BalanceSheet,
     CashFlowStatement,
     Dividend,
+    AnalystForecast,
 )
-
 DIVIDEND_FIELDS = {
     "dividend",
     "payment_date",
@@ -186,6 +187,72 @@ def sync_file(file_path):
         f"OK: {ticker} — {year} — {period} ({action})"
     )
 
+def sync_forecast_file(file_path):
+    ticker = file_path.stem.upper()
+
+    company = Company.objects.filter(
+        ticker=ticker,
+        is_active=True,
+    ).first()
+
+    if not company:
+        print(
+            f"SKIP: компания {ticker} не найдена в базе"
+        )
+        return
+
+    with file_path.open(
+        "r",
+        encoding="utf-8",
+    ) as file:
+
+        for line_number, line in enumerate(
+            file,
+            start=1,
+        ):
+            line = line.strip()
+
+            if not line:
+                continue
+
+            parts = [
+                part.strip()
+                for part in line.split("=")
+            ]
+
+            if len(parts) != 3:
+                raise ValueError(
+                    f"{file_path.name}, строка {line_number}: "
+                    "ожидается формат GROUP=RECOMMENDATION=PRICE"
+                )
+
+            analyst_group, recommendation, target_price = parts
+
+            if recommendation not in {
+                "BUY",
+                "HOLD",
+                "SELL",
+            }:
+                raise ValueError(
+                    f"{file_path.name}, строка {line_number}: "
+                    f"неизвестная рекомендация {recommendation}"
+                )
+
+            AnalystForecast.objects.update_or_create(
+                company=company,
+                analyst_group=analyst_group,
+                defaults={
+                    "recommendation": recommendation,
+                    "target_price": target_price,
+                },
+            )
+
+            print(
+                f"FORECAST: {ticker} — "
+                f"{analyst_group} — "
+                f"{recommendation} — "
+                f"{target_price}"
+            )
 
 def main():
     files = sorted(DATA_DIR.glob("*.txt"))
@@ -197,6 +264,26 @@ def main():
     for file_path in files:
         try:
             sync_file(file_path)
+
+        except Exception as error:
+            print(
+                f"ERROR: {file_path.name}: {error}"
+            )
+        forecast_files = sorted(
+        FORECASTS_DIR.glob("*.txt")
+    )
+
+    print()
+    print(f"Папка: {FORECASTS_DIR}")
+    print(
+        f"Найдено файлов прогнозов: "
+        f"{len(forecast_files)}"
+    )
+    print()
+
+    for file_path in forecast_files:
+        try:
+            sync_forecast_file(file_path)
 
         except Exception as error:
             print(

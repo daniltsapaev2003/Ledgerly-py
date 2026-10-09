@@ -235,26 +235,59 @@
 
     {% include "cash_flow.html" %}
 </div>
+<div
+    id="analyst-forecasts-section"
+    style="
+        display: none;
+        width: 100%;
+    "
+>
+    {% include "analyst_forecasts.html" %}
+</div>
     </div>
 
 <script>
+    let currentScreen = 0;
+
     document.addEventListener("keydown", function (event) {
         const reportsSection = document.getElementById("reports-section");
         const graphsSection = document.getElementById("graphs-section");
+        const forecastsSection = document.getElementById(
+            "analyst-forecasts-section"
+        );
 
-        if (!reportsSection || !graphsSection) {
+        if (
+            !reportsSection ||
+            !graphsSection ||
+            !forecastsSection
+        ) {
             return;
         }
 
         if (event.key === "ArrowRight") {
-            reportsSection.style.display = "none";
-            graphsSection.style.display = "block";
+
+            if (currentScreen < 2) {
+                currentScreen++;
+            }
+
+        } else if (event.key === "ArrowLeft") {
+
+            if (currentScreen > 0) {
+                currentScreen--;
+            }
+
+        } else {
+            return;
         }
 
-        if (event.key === "ArrowLeft") {
-            graphsSection.style.display = "none";
-            reportsSection.style.display = "block";
-        }
+        reportsSection.style.display =
+            currentScreen === 0 ? "block" : "none";
+
+        graphsSection.style.display =
+            currentScreen === 1 ? "block" : "none";
+
+        forecastsSection.style.display =
+            currentScreen === 2 ? "block" : "none";
     });
 </script>
     </div>

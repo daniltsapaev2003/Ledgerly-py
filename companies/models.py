@@ -290,6 +290,13 @@ class AnalystForecast(models.Model):
     updated_at = models.DateTimeField(
         auto_now=True,
     )
+    class Meta:
+        constraints = [
+        models.UniqueConstraint(
+            fields=["company", "analyst_group"],
+            name="unique_company_analyst_group",
+        )
+        ]
 
     def __str__(self):
         return (

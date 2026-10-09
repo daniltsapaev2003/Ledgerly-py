@@ -242,9 +242,23 @@
                     <span style="width:100px;text-align:right;font-weight:600;">
                         {{ report.cash_flow_statement.operating_cash_flow|financial }}
                     </span>
-                    <span style="width:70px;text-align:right;color:rgb(100,100,100);">
-                        —
-                    </span>
+
+                     {% if changes.cash_flow.operating_cash_flow is None %}
+                            <span style="width:70px; text-align:right; font-weight:500; color:rgb(100,100,100);">
+                        {% elif changes.cash_flow.operating_cash_flow > 0 %}
+                            <span style="width:70px; text-align:right; font-weight:500; color:rgb(22,163,74);">
+                        {% elif changes.cash_flow.operating_cash_flow < 0 %}
+                            <span style="width:70px; text-align:right; font-weight:500; color:rgb(220,38,38);">
+                        {% else %}
+                            <span style="width:70px; text-align:right; font-weight:500; color:rgb(100,100,100);">
+                        {% endif %}
+        
+                            {% if changes.cash_flow.operating_cash_flow != None %}
+                                {% if changes.cash_flow.operating_cash_flow > 0 %}+{% endif %}{{ changes.cash_flow.operating_cash_flow|floatformat:1 }}%
+                            {% else %}
+                                —
+                            {% endif %}
+
                 </div>
 
                 <div style="display:flex;align-items:center;padding:9px 0;border-bottom:1px solid rgb(235,235,235);">
@@ -252,9 +266,21 @@
                     <span style="width:100px;text-align:right;font-weight:600;">
                         {{ report.cash_flow_statement.investing_cash_flow|financial }}
                     </span>
-                    <span style="width:70px;text-align:right;color:rgb(100,100,100);">
-                        —
-                    </span>
+                    {% if changes.cash_flow.investing_cash_flow is None %}
+                            <span style="width:70px; text-align:right; font-weight:500; color:rgb(100,100,100);">
+                        {% elif changes.cash_flow.investing_cash_flow > 0 %}
+                            <span style="width:70px; text-align:right; font-weight:500; color:rgb(22,163,74);">
+                        {% elif changes.cash_flow.investing_cash_flow < 0 %}
+                            <span style="width:70px; text-align:right; font-weight:500; color:rgb(220,38,38);">
+                        {% else %}
+                            <span style="width:70px; text-align:right; font-weight:500; color:rgb(100,100,100);">
+                        {% endif %}
+        
+                            {% if changes.cash_flow.investing_cash_flow != None %}
+                                {% if changes.cash_flow.investing_cash_flow > 0 %}+{% endif %}{{ changes.cash_flow.investing_cash_flow|floatformat:1 }}%
+                            {% else %}
+                                —
+                            {% endif %}
                 </div>
 
                 <div style="display:flex;align-items:center;padding:9px 0;border-bottom:1px solid rgb(235,235,235);">
@@ -262,9 +288,21 @@
                     <span style="width:100px;text-align:right;font-weight:600;">
                         {{ report.cash_flow_statement.financing_cash_flow|financial }}
                     </span>
-                    <span style="width:70px;text-align:right;color:rgb(100,100,100);">
-                        —
-                    </span>
+                    {% if changes.cash_flow.financing_cash_flow is None %}
+                            <span style="width:70px; text-align:right; font-weight:500; color:rgb(100,100,100);">
+                        {% elif changes.cash_flow.financing_cash_flow > 0 %}
+                            <span style="width:70px; text-align:right; font-weight:500; color:rgb(22,163,74);">
+                        {% elif changes.cash_flow.financing_cash_flow < 0 %}
+                            <span style="width:70px; text-align:right; font-weight:500; color:rgb(220,38,38);">
+                        {% else %}
+                            <span style="width:70px; text-align:right; font-weight:500; color:rgb(100,100,100);">
+                        {% endif %}
+        
+                            {% if changes.cash_flow.financing_cash_flow != None %}
+                                {% if changes.cash_flow.financing_cash_flow > 0 %}+{% endif %}{{ changes.cash_flow.financing_cash_flow|floatformat:1 }}%
+                            {% else %}
+                                —
+                            {% endif %}
                 </div>
 
                 <div style="display:flex;align-items:center;padding:9px 0;border-bottom:1px solid rgb(235,235,235);">
@@ -272,9 +310,21 @@
                     <span style="width:100px;text-align:right;font-weight:600;">
                         {{ report.cash_flow_statement.capital_expenditures|financial }}
                     </span>
-                    <span style="width:70px;text-align:right;color:rgb(100,100,100);">
-                        —
-                    </span>
+                    {% if changes.cash_flow.capital_expenditures is None %}
+                            <span style="width:70px; text-align:right; font-weight:500; color:rgb(100,100,100);">
+                        {% elif changes.cash_flow.capital_expenditures > 0 %}
+                            <span style="width:70px; text-align:right; font-weight:500; color:rgb(22,163,74);">
+                        {% elif changes.cash_flow.capital_expenditures < 0 %}
+                            <span style="width:70px; text-align:right; font-weight:500; color:rgb(220,38,38);">
+                        {% else %}
+                            <span style="width:70px; text-align:right; font-weight:500; color:rgb(100,100,100);">
+                        {% endif %}
+        
+                            {% if changes.cash_flow.capital_expenditures != None %}
+                                {% if changes.cash_flow.capital_expenditures > 0 %}+{% endif %}{{ changes.cash_flow.capital_expenditures|floatformat:1 }}%
+                            {% else %}
+                                —
+                            {% endif %}
                 </div>
 
                 <div style="display:flex;align-items:center;padding:9px 0;">
@@ -282,9 +332,21 @@
                     <span style="width:100px;text-align:right;font-weight:600;">
                         {{ report.cash_flow_statement.free_cash_flow|financial }}
                     </span>
-                    <span style="width:70px;text-align:right;color:rgb(100,100,100);">
-                        —
-                    </span>
+                    {% if changes.cash_flow.free_cash_flow is None %}
+                            <span style="width:70px; text-align:right; font-weight:500; color:rgb(100,100,100);">
+                        {% elif changes.cash_flow.free_cash_flow > 0 %}
+                            <span style="width:70px; text-align:right; font-weight:500; color:rgb(22,163,74);">
+                        {% elif changes.cash_flow.free_cash_flow < 0 %}
+                            <span style="width:70px; text-align:right; font-weight:500; color:rgb(220,38,38);">
+                        {% else %}
+                            <span style="width:70px; text-align:right; font-weight:500; color:rgb(100,100,100);">
+                        {% endif %}
+        
+                            {% if changes.cash_flow.capital_expenditures != None %}
+                                {% if changes.cash_flow.free_cash_flow > 0 %}+{% endif %}{{ changes.cash_flow.free_cash_flow|floatformat:1 }}%
+                            {% else %}
+                                —
+                            {% endif %}
                 </div>
             </div>
         </div>
@@ -344,9 +406,22 @@
                     <span style="width:100px;text-align:right;font-weight:600;">
                         {{ report.balance_sheet.cash_and_equivalents|financial }}
                     </span>
-                    <span style="width:70px;text-align:right;color:rgb(100,100,100);">
-                        —
                     </span>
+                    {% if changes.balance.cash_and_equivalents is None %}
+                            <span style="width:70px; text-align:right; font-weight:500; color:rgb(100,100,100);">
+                        {% elif changes.balance.cash_and_equivalents > 0 %}
+                            <span style="width:70px; text-align:right; font-weight:500; color:rgb(22,163,74);">
+                        {% elif changes.balance.cash_and_equivalents < 0 %}
+                            <span style="width:70px; text-align:right; font-weight:500; color:rgb(220,38,38);">
+                        {% else %}
+                            <span style="width:70px; text-align:right; font-weight:500; color:rgb(100,100,100);">
+                        {% endif %}
+        
+                            {% if changes.cash_flow.capital_expenditures != None %}
+                                {% if changes.balance.cash_and_equivalents > 0 %}+{% endif %}{{ changes.balance.cash_and_equivalents|floatformat:1 }}%
+                            {% else %}
+                                —
+                            {% endif %}
                 </div>
 
                 <div style="display:flex;align-items:center;padding:9px 0;border-bottom:1px solid rgb(235,235,235);">
@@ -354,9 +429,22 @@
                     <span style="width:100px;text-align:right;font-weight:600;">
                         {{ report.balance_sheet.total_assets|financial }}
                     </span>
-                    <span style="width:70px;text-align:right;color:rgb(100,100,100);">
-                        —
                     </span>
+                    {% if changes.balance.total_assets is None %}
+                            <span style="width:70px; text-align:right; font-weight:500; color:rgb(100,100,100);">
+                        {% elif changes.balance.total_assets > 0 %}
+                            <span style="width:70px; text-align:right; font-weight:500; color:rgb(22,163,74);">
+                        {% elif changes.balance.total_assets < 0 %}
+                            <span style="width:70px; text-align:right; font-weight:500; color:rgb(220,38,38);">
+                        {% else %}
+                            <span style="width:70px; text-align:right; font-weight:500; color:rgb(100,100,100);">
+                        {% endif %}
+        
+                            {% if changes.cash_flow.capital_expenditures != None %}
+                                {% if changes.balance.total_assets > 0 %}+{% endif %}{{ changes.balance.total_assets|floatformat:1 }}%
+                            {% else %}
+                                —
+                            {% endif %}
                 </div>
 
                 <div style="display:flex;align-items:center;padding:9px 0;border-bottom:1px solid rgb(235,235,235);">
@@ -364,9 +452,22 @@
                     <span style="width:100px;text-align:right;font-weight:600;">
                         {{ report.balance_sheet.current_liabilities|financial }}
                     </span>
-                    <span style="width:70px;text-align:right;color:rgb(100,100,100);">
-                        —
-                    </span>
+                   </span>
+                    {% if changes.balance.current_liabilities is None %}
+                            <span style="width:70px; text-align:right; font-weight:500; color:rgb(100,100,100);">
+                        {% elif changes.balance.current_liabilities > 0 %}
+                            <span style="width:70px; text-align:right; font-weight:500; color:rgb(22,163,74);">
+                        {% elif changes.balance.current_liabilities < 0 %}
+                            <span style="width:70px; text-align:right; font-weight:500; color:rgb(220,38,38);">
+                        {% else %}
+                            <span style="width:70px; text-align:right; font-weight:500; color:rgb(100,100,100);">
+                        {% endif %}
+        
+                            {% if changes.cash_flow.capital_expenditures != None %}
+                                {% if changes.balance.current_liabilities > 0 %}+{% endif %}{{ changes.balance.current_liabilities|floatformat:1 }}%
+                            {% else %}
+                                —
+                            {% endif %}
                 </div>
 
                 <div style="display:flex;align-items:center;padding:9px 0;border-bottom:1px solid rgb(235,235,235);">
@@ -374,9 +475,22 @@
                     <span style="width:100px;text-align:right;font-weight:600;">
                         {{ report.balance_sheet.total_liabilities|financial }}
                     </span>
-                    <span style="width:70px;text-align:right;color:rgb(100,100,100);">
-                        —
                     </span>
+                    {% if changes.balance.total_liabilities is None %}
+                            <span style="width:70px; text-align:right; font-weight:500; color:rgb(100,100,100);">
+                        {% elif changes.balance.total_liabilities > 0 %}
+                            <span style="width:70px; text-align:right; font-weight:500; color:rgb(22,163,74);">
+                        {% elif changes.balance.total_liabilities < 0 %}
+                            <span style="width:70px; text-align:right; font-weight:500; color:rgb(220,38,38);">
+                        {% else %}
+                            <span style="width:70px; text-align:right; font-weight:500; color:rgb(100,100,100);">
+                        {% endif %}
+        
+                            {% if changes.cash_flow.capital_expenditures != None %}
+                                {% if changes.balance.total_liabilities > 0 %}+{% endif %}{{ changes.balance.total_liabilities|floatformat:1 }}%
+                            {% else %}
+                                —
+                            {% endif %}
                 </div>
 
                 <div style="display:flex;align-items:center;padding:9px 0;border-bottom:1px solid rgb(235,235,235);">
@@ -384,9 +498,22 @@
                     <span style="width:100px;text-align:right;font-weight:600;">
                         {{ report.balance_sheet.total_debt|financial }}
                     </span>
-                    <span style="width:70px;text-align:right;color:rgb(100,100,100);">
-                        —
-                    </span>
+                     </span>
+                    {% if changes.balance.total_debt is None %}
+                            <span style="width:70px; text-align:right; font-weight:500; color:rgb(100,100,100);">
+                        {% elif changes.balance.total_debt > 0 %}
+                            <span style="width:70px; text-align:right; font-weight:500; color:rgb(22,163,74);">
+                        {% elif changes.balance.total_debt < 0 %}
+                            <span style="width:70px; text-align:right; font-weight:500; color:rgb(220,38,38);">
+                        {% else %}
+                            <span style="width:70px; text-align:right; font-weight:500; color:rgb(100,100,100);">
+                        {% endif %}
+        
+                            {% if changes.cash_flow.capital_expenditures != None %}
+                                {% if changes.balance.total_debt > 0 %}+{% endif %}{{ changes.balance.total_debt|floatformat:1 }}%
+                            {% else %}
+                                —
+                            {% endif %}
                 </div>
 
                 <div style="display:flex;align-items:center;padding:9px 0;">
@@ -394,9 +521,21 @@
                     <span style="width:100px;text-align:right;font-weight:600;">
                         {{ report.balance_sheet.equity|financial }}
                     </span>
-                    <span style="width:70px;text-align:right;color:rgb(100,100,100);">
-                        —
-                    </span>
+                    {% if changes.balance.equity is None %}
+                            <span style="width:70px; text-align:right; font-weight:500; color:rgb(100,100,100);">
+                        {% elif changes.balance.equity > 0 %}
+                            <span style="width:70px; text-align:right; font-weight:500; color:rgb(22,163,74);">
+                        {% elif changes.balance.equity < 0 %}
+                            <span style="width:70px; text-align:right; font-weight:500; color:rgb(220,38,38);">
+                        {% else %}
+                            <span style="width:70px; text-align:right; font-weight:500; color:rgb(100,100,100);">
+                        {% endif %}
+        
+                            {% if changes.cash_flow.capital_expenditures != None %}
+                                {% if changes.balance.equity > 0 %}+{% endif %}{{ changes.balance.equity|floatformat:1 }}%
+                            {% else %}
+                                —
+                            {% endif %}
                 </div>
             </div>
         </div>

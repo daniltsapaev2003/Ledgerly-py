@@ -4,6 +4,10 @@ from companies.models import Company
 from company_graphs.income import build_income_chart
 from company_graphs.balance import build_balance_chart
 from company_graphs.cash_flow import build_cash_flow_chart
+from companies.models import (
+    FinancialReport,
+    AnalystForecast,
+)
 
 def income_chart_data(request, company_id):
     company = Company.objects.filter(
@@ -76,3 +80,12 @@ def cash_flow_chart_data(request, company_id):
     )
 
     return JsonResponse(chart)
+
+def get_analyst_forecasts(company):
+    forecasts = AnalystForecast.objects.filter(
+        company=company,
+    ).order_by(
+        "analyst_group",
+    )
+
+    return forecasts

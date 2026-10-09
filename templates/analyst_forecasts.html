@@ -1,0 +1,76 @@
+<div
+    style="
+        width: 100%;
+    "
+>
+    <div
+        style="
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        "
+    >
+
+        {% for forecast in analyst_forecasts %}
+
+            <div
+                style="
+                    display: grid;
+                    grid-template-columns: 1fr 120px 120px;
+                    align-items: center;
+                    min-height: 45px;
+                    border-bottom: 1px solid #e5e7eb;
+                "
+            >
+
+                <span
+                    style="
+                        font-weight: 500;
+                    "
+                >
+                    {{ forecast.analyst_group }}
+                </span>
+
+                <span
+                    style="
+                        font-weight: 600;
+                        text-align: center;
+
+                        {% if forecast.recommendation == 'BUY' %}
+                            color: #16a34a;
+                        {% elif forecast.recommendation == 'HOLD' %}
+                            color: #ea580c;
+                        {% elif forecast.recommendation == 'SELL' %}
+                            color: #dc2626;
+                        {% endif %}
+                    "
+                >
+                    {{ forecast.recommendation }}
+                </span>
+
+                <span
+                    style="
+                        text-align: right;
+                    "
+                >
+                    {{ forecast.target_price }}
+                </span>
+
+            </div>
+
+        {% empty %}
+
+            <div
+                style="
+                    color: #6b7280;
+                    text-align: center;
+                    padding: 30px;
+                "
+            >
+                Прогнозов аналитиков нет
+            </div>
+
+        {% endfor %}
+
+    </div>
+</div>
