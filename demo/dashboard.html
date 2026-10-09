@@ -1,0 +1,498 @@
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ledgerly — X5</title>
+    <link rel="stylesheet" href="styles.css">
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background: #f5f6fa;
+            font-family: Arial, Helvetica, sans-serif;
+            color: #111827;
+        }
+
+        .dashboard {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+
+        .sidebar {
+            width: 250px;
+            min-height: 100vh;
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            padding: 24px 18px 18px;
+            background: #fff;
+            border-right: 1px solid #c5c5c5;
+        }
+
+        .sidebar-logo {
+            display: block;
+            width: 190px;
+            max-width: 100%;
+            height: auto;
+            margin: 0 auto 32px;
+        }
+
+        .company-search {
+            width: 100%;
+            padding: 11px 12px;
+            margin-bottom: 16px;
+            background: #fff;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 13px;
+            outline: none;
+        }
+
+        .company-search:focus {
+            border-color: #3d43b8;
+        }
+
+        .company-link {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 12px;
+            color: #3d43b8;
+            background: #eef0ff;
+            border-radius: 8px;
+            font-size: 14px;
+            text-decoration: none;
+        }
+
+        .x5-logo {
+            width: 28px;
+            height: 28px;
+            flex-shrink: 0;
+            object-fit: contain;
+            border-radius: 50%;
+        }
+
+        .sidebar-bottom {
+            margin-top: auto;
+            padding-top: 16px;
+            border-top: 1px solid #e5e7eb;
+        }
+
+        .sidebar-bottom a {
+            display: block;
+            padding: 8px 4px;
+            color: #6b7280;
+            font-size: 13px;
+            text-decoration: none;
+        }
+
+        .sidebar-bottom a:hover {
+            color: #3d43b8;
+        }
+
+        /* Main content */
+
+        .main-content {
+            flex: 1;
+            min-width: 0;
+            padding: 28px;
+        }
+
+        /* Company header */
+
+        .company-header {
+            width: 100%;
+            min-height: 110px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            padding: 24px 30px;
+            margin-bottom: 24px;
+            background: #fff;
+            border: 1px solid #e5e7eb;
+            border-radius: 16px;
+        }
+
+        .company-header-info {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 16px;
+            min-width: 0;
+        }
+
+        .company-header-logo {
+            width: 58px;
+            height: 58px;
+            flex-shrink: 0;
+            object-fit: contain;
+            border-radius: 50%;
+        }
+
+        .company-header-name {
+            margin: 0;
+            font-size: 22px;
+            font-weight: 600;
+            color: #111827;
+        }
+
+        .company-header-ticker {
+            margin: 5px 0 0;
+            font-size: 13px;
+            color: #6b7280;
+        }
+
+        .company-header-number {
+            margin-left: auto;
+            flex-shrink: 0;
+            font-size: 18px;
+            font-weight: 500;
+            color: #374151;
+            text-align: right;
+        }
+
+        /* Financial cards container */
+
+        .financial-container {
+            width: 100%;
+            padding: 24px;
+            background: #fff;
+            border: 1px solid #e5e7eb;
+            border-radius: 16px;
+        }
+
+        .financial-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 18px;
+        }
+
+        .financial-card {
+            min-width: 0;
+            padding: 22px;
+            background: #fff;
+            border: 1px solid #dfe2e8;
+            border-radius: 12px;
+        }
+
+        .financial-card h2 {
+            margin: 0 0 20px;
+            padding-bottom: 14px;
+            border-bottom: 1px solid #e5e7eb;
+            font-size: 16px;
+            font-weight: 600;
+            color: #111827;
+        }
+
+        .financial-row {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 16px;
+            padding: 10px 0;
+            border-bottom: 1px solid #f0f1f4;
+            font-size: 13px;
+        }
+
+        .financial-row:last-child {
+            border-bottom: none;
+        }
+
+        .financial-key {
+            min-width: 0;
+            overflow-wrap: anywhere;
+            color: #6b7280;
+        }
+
+        .financial-value {
+            flex-shrink: 0;
+            text-align: right;
+            font-weight: 600;
+            color: #111827;
+            overflow-wrap: anywhere;
+        }
+
+        /* Dividends */
+
+        .dividend-row {
+            display: grid;
+            grid-template-columns: 1fr auto auto;
+            align-items: center;
+            gap: 16px;
+            padding: 14px 0;
+            font-size: 13px;
+        }
+
+        .dividend-name {
+            font-weight: 600;
+            color: #111827;
+        }
+
+        .dividend-year,
+        .dividend-date {
+            color: #6b7280;
+            white-space: nowrap;
+        }
+
+        .dividend-amount {
+            color: #111827;
+            font-weight: 600;
+        }
+
+        /* Responsive */
+
+        @media (max-width: 1100px) {
+            .financial-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .main-content {
+                padding: 20px;
+            }
+        }
+
+        @media (max-width: 700px) {
+            .dashboard {
+                display: block;
+            }
+
+            .sidebar {
+                width: 100%;
+                min-height: auto;
+                border-right: none;
+                border-bottom: 1px solid #d1d5db;
+            }
+
+            .sidebar-logo {
+                margin-left: 0;
+            }
+
+            .sidebar-bottom {
+                margin-top: 20px;
+            }
+
+            .main-content {
+                padding: 14px;
+            }
+
+            .company-header {
+                padding: 18px;
+            }
+
+            .company-header-logo {
+                width: 46px;
+                height: 46px;
+            }
+
+            .company-header-number {
+                font-size: 16px;
+            }
+
+            .financial-container {
+                padding: 14px;
+            }
+
+            .financial-card {
+                padding: 16px;
+            }
+
+            .dividend-row {
+                grid-template-columns: 1fr auto;
+            }
+
+            .dividend-date {
+                grid-column: 1 / -1;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="dashboard">
+
+    <aside class="sidebar">
+
+        <a href="dashboard.html">
+            <img
+                src="assets/logo.png"
+                alt="Ledgerly"
+                class="sidebar-logo"
+            >
+        </a>
+
+        <input
+            class="company-search"
+            type="search"
+            placeholder="⌕  Ticker or name"
+            aria-label="Search companies"
+        >
+
+        <a href="#" class="company-link">
+            <img
+                src="assets/X5.png"
+                alt="X5"
+                class="x5-logo"
+            >
+            <span>X5</span>
+        </a>
+
+        <div class="sidebar-bottom">
+            <a href="index.html">Sign out</a>
+        </div>
+
+    </aside>
+
+    <main class="main-content">
+
+        <section class="company-header">
+
+            <div class="company-header-info">
+                <img
+                    src="assets/X5.png"
+                    alt="X5"
+                    class="company-header-logo"
+                >
+
+                <div>
+                    <h1 class="company-header-name">X5</h1>
+                </div>
+            </div>
+
+            <div class="company-header-number">2000</div>
+
+        </section>
+
+        <section class="financial-container">
+
+            <div class="financial-grid">
+
+                <article class="financial-card">
+                    <h2>Income statement</h2>
+
+                    <div class="financial-row">
+                        <span class="financial-key">revenue</span>
+                        <span class="financial-value">2 501 000 000 000</span>
+                    </div>
+
+                    <div class="financial-row">
+                        <span class="financial-key">cost_of_revenue</span>
+                        <span class="financial-value">858 600 000 000</span>
+                    </div>
+
+                    <div class="financial-row">
+                        <span class="financial-key">gross_profit</span>
+                        <span class="financial-value">1 642 400 000 000</span>
+                    </div>
+
+                    <div class="financial-row">
+                        <span class="financial-key">operating_profit</span>
+                        <span class="financial-value">1 497 700 000 000</span>
+                    </div>
+
+                    <div class="financial-row">
+                        <span class="financial-key">ebitda</span>
+                        <span class="financial-value">1 497 700 000 000</span>
+                    </div>
+
+                    <div class="financial-row">
+                        <span class="financial-key">net_income</span>
+                        <span class="financial-value">1 251 000 000 000</span>
+                    </div>
+                </article>
+
+                <article class="financial-card">
+                    <h2>Balance sheet</h2>
+
+                    <div class="financial-row">
+                        <span class="financial-key">cash_and_equivalents</span>
+                        <span class="financial-value">0</span>
+                    </div>
+
+                    <div class="financial-row">
+                        <span class="financial-key">total_assets</span>
+                        <span class="financial-value">41 165 000 000 000</span>
+                    </div>
+
+                    <div class="financial-row">
+                        <span class="financial-key">current_liabilities</span>
+                        <span class="financial-value">35 526 000 000 000</span>
+                    </div>
+
+                    <div class="financial-row">
+                        <span class="financial-key">total_liabilities</span>
+                        <span class="financial-value">35 526 000 000 000</span>
+                    </div>
+
+                    <div class="financial-row">
+                        <span class="financial-key">total_debt</span>
+                        <span class="financial-value">0</span>
+                    </div>
+
+                    <div class="financial-row">
+                        <span class="financial-key">equity</span>
+                        <span class="financial-value">5 639 000 000 000</span>
+                    </div>
+                </article>
+
+                <article class="financial-card">
+                    <h2>Cash flow statement</h2>
+
+                    <div class="financial-row">
+                        <span class="financial-key">operating_cash_flow</span>
+                        <span class="financial-value">797 500 000 000</span>
+                    </div>
+
+                    <div class="financial-row">
+                        <span class="financial-key">investing_cash_flow</span>
+                        <span class="financial-value">0</span>
+                    </div>
+
+                    <div class="financial-row">
+                        <span class="financial-key">financing_cash_flow</span>
+                        <span class="financial-value">0</span>
+                    </div>
+
+                    <div class="financial-row">
+                        <span class="financial-key">capital_expenditures</span>
+                        <span class="financial-value">0</span>
+                    </div>
+
+                    <div class="financial-row">
+                        <span class="financial-key">free_cash_flow</span>
+                        <span class="financial-value">797 500 000 000</span>
+                    </div>
+                </article>
+
+                <article class="financial-card">
+                    <h2>Дивиденды</h2>
+
+                    <div class="dividend-row">
+                        <span class="dividend-name">Дивиденды</span>
+                        <span class="dividend-year">2025</span>
+                        <span class="dividend-date">
+                            <span class="dividend-amount">200</span>
+                            &nbsp; 07.07.2026
+                        </span>
+                    </div>
+                </article>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+</body>
+</html>
