@@ -14,8 +14,8 @@
     <div class="perspective-[1000px] w-100 h-125">
         <div
             id="auth-card"
-            class="relative w-full h-full transition-transform duration-700 [transform-style:preserve-3d]"
-        >
+            class="relative w-full h-full transition-transform duration-700 [transform-style:preserve-3d]{% if show_registration %} auth-flipped{% endif %}"
+            >
 
             <!-- LOGIN SIDE -->
             
@@ -97,29 +97,6 @@
         }, 2000);
     </script>
 {% endif %}
-{% if user_exists %}
-    <div
-        id="email-error-message"
-        class="w-85 mx-auto mt-2 text-center"
-        style="color: rgb(20, 167, 0); opacity: 1; transition: opacity 0.5s ease;"
-    >
-        User with this email is already exists
-    </div>
-
-    <script>
-        setTimeout(() => {
-            const message = document.getElementById("email-error-message");
-
-            if (message) {
-                message.style.opacity = "0";
-
-                setTimeout(() => {
-                    message.remove();
-                }, 500);
-            }
-        }, 2000);
-    </script>
-{% endif %}
 
                 <div class="w-85 mx-auto mt-6 border-t border-gray-400"></div>
 
@@ -153,12 +130,10 @@
                     class="w-80 h-auto mx-auto mb-1 mt-0"
                 >
 
-                <div class="flex gap-4 w-85 mx-auto mb-2">
-
-
     <form method="POST" action="{% url 'register' %}">
     {% csrf_token %}
-<div class="flex gap-4">
+    <div class="flex gap-4 w-85 mx-auto mb-2">
+    <div class="flex gap-4">
     <div class="w-1/2">
         <label class="block text-sm font-normal text-black mb-1 ml-1">
             First name
@@ -222,6 +197,25 @@
     placeholder="Enter password"
     class="block w-85 mx-auto border border-gray-500 rounded-xl px-4 py-1.5 text-black placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-900 focus:border-transparent font-normal mb-5"
 >
+{% if missing_fields %}
+    <div
+        role="alert"
+        class="w-85 mx-auto mb-2 text-center text-sm"
+        style="color: rgb(188, 0, 0);"
+    >
+        Please fill in all required fields.
+    </div>
+{% endif %}
+
+{% if user_exists %}
+    <div
+        role="alert"
+        class="w-85 mx-auto mb-2 text-center text-sm"
+        style="color: rgb(188, 0, 0);"
+    >
+        A user with this email already exists.
+    </div>
+{% endif %}
 <button
     type="submit"
     class="flex items-center justify-center gap-2 w-85 mx-auto mt-2 bg-[#3d43b8] hover:bg-[#3237a0] text-white font-normal py-2 rounded-xl transition"

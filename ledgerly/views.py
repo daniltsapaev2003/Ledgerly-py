@@ -11,54 +11,102 @@ from company_graphs.income import build_income_chart
 from company_graphs.balance import build_balance_chart
 from company_graphs.cash_flow import build_cash_flow_chart
 from company_graphs.analyst_forecasts import build_analyst_forecasts
+from django.db import transaction
 
 def registration(request):
-    if request.method == "POST":
-        try:
-                User.objects.create(
-                first_name=request.POST["first_name"],
-                last_name=request.POST["last_name"],
-                email=request.POST["email"],
-                phone_number=request.POST["phone_number"],
-                password=make_password(request.POST["password"])
-                )
-                request.session["session"] =  User.objects.filter(email = request.POST["email"]).first().id
-                return redirect("Dashboard")
+    if request.method != "POST":
+        return render(
+        request,
+        "Loginpage.html",
+        {"show_registration": True},
+        )
 
-        except IntegrityError:
-            return render(
-                request,
-                "Loginpage.html",
-                {"user_exists": True}
+    first_name = request.POST.get("first_name", "").strip()
+    last_name = request.POST.get("last_name", "").strip()
+    email = request.POST.get("email", "").strip()
+    phone_number = request.POST.get("phone_number", "").strip()
+    # Пароль не обрезаем: пробелы могут быть его частью.
+    password = request.POST.get("password", "")
+
+    if not all((first_name, last_name, email, phone_number, password)):
+        return render(
+        request,
+        "Loginpage.html",
+        {
+            "missing_fields": True,
+            "show_registration": True,
+        },
+    )
+
+    try:
+        # Ловим IntegrityError за пределами atomic, чтобы соединение
+        # оставалось пригодным для дальнейших запросов.
+        with transaction.atomic():
+            user = User.objects.create(
+                first_name=first_name,
+                last_name=last_name,
+                email=email,
+                phone_number=phone_number,
+                password=make_password(password),
             )
+    except IntegrityError:
+        return render(
+        request,
+        "Loginpage.html",
+        {
+            "user_exists": True,
+            "show_registration": True,
+        },
+     )
 
-    return 0
+    request.session.flush()
+    request.session["session"] = user.pk
+    return redirect("Dashboard")
+
 
 def CheckUser(request):
-    user_data = User.objects.filter(email = request.POST["email"])
-    password = request.POST["password"]
-    if user_data.exists():
-         if check_password(password,user_data.first().password):
-              request.session["session"] = user_data.first().id
-              return redirect("Dashboard")
+    if request.method != "POST":
+        return render(request, "Loginpage.html")
+
+    email = request.POST.get("email", "").strip()
+    password = request.POST.get("password", "")
+
+    if not email or not password:
+        return render(
+            request,
+            "Loginpage.html",
+            {"wrong_email_password": True},
+        )
+
+    user = User.objects.filter(email=email).first()
+
+    if user is not None and check_password(password, user.password):
+        request.session.flush()
+        request.session["session"] = user.pk
+        return redirect("Dashboard")
+
     return render(
-                    request,
-                    "Loginpage.html",
-                    {"wrong_email_password": True}
-                )   
+        request,
+        "Loginpage.html",
+        {"wrong_email_password": True},
+    )
 
 
 def dashboard_protect(request):
-    if "session" in request.session:
-        companies = Company.objects.filter(
-        is_active=True
-        ).order_by("ticker")
+    if "session" not in request.session:
+        return redirect("Loginpage")
 
-        user = User.objects.get(
-        id=request.session["session"]
-        )
+    try:
+        user = User.objects.get(pk=request.session["session"])
+    except (User.DoesNotExist, TypeError, ValueError):
+        request.session.flush()
+        return redirect("Loginpage")
 
-        return render(
+    companies = Company.objects.filter(
+        is_active=True,
+    ).order_by("ticker")
+
+    return render(
         request,
         "Dashboard.html",
         {
