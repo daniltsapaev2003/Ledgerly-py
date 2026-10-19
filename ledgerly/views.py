@@ -12,6 +12,7 @@ from company_graphs.balance import build_balance_chart
 from company_graphs.cash_flow import build_cash_flow_chart
 from company_graphs.analyst_forecasts import build_analyst_forecasts
 from django.db import transaction
+from django.views.decorators.http import require_POST
 
 def registration(request):
     if request.method != "POST":
@@ -117,6 +118,8 @@ def dashboard_protect(request):
 
     return redirect("Loginpage")
 
+
+@require_POST
 def logout(request):
     request.session.flush()
 

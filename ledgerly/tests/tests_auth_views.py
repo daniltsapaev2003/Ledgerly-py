@@ -158,3 +158,16 @@ class AuthViewsTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "Dashboard.html")
         self.assertEqual(response.context["user"].pk, self.user.pk)
+
+    def test_login_unknown_email_returns_error(self):
+        response = self.client.post(
+            reverse("CheckUser"),
+            {
+                "email": "unknown@example.com",
+                "password": self.password,
+            },
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue(response.context["wrong_email_password"])
+        self.assertNotIn("session", self.client.session)
