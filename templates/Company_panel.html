@@ -245,50 +245,12 @@
     {% include "analyst_forecasts.html" %}
 </div>
     </div>
-
-<script>
-    let currentScreen = 0;
-
-    document.addEventListener("keydown", function (event) {
-        const reportsSection = document.getElementById("reports-section");
-        const graphsSection = document.getElementById("graphs-section");
-        const forecastsSection = document.getElementById(
-            "analyst-forecasts-section"
-        );
-
-        if (
-            !reportsSection ||
-            !graphsSection ||
-            !forecastsSection
-        ) {
-            return;
-        }
-
-        if (event.key === "ArrowRight") {
-
-            if (currentScreen < 2) {
-                currentScreen++;
-            }
-
-        } else if (event.key === "ArrowLeft") {
-
-            if (currentScreen > 0) {
-                currentScreen--;
-            }
-
-        } else {
-            return;
-        }
-
-        reportsSection.style.display =
-            currentScreen === 0 ? "block" : "none";
-
-        graphsSection.style.display =
-            currentScreen === 1 ? "block" : "none";
-
-        forecastsSection.style.display =
-            currentScreen === 2 ? "block" : "none";
-    });
-</script>
     </div>
 </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
+    <script src="{% static 'JS/charts.js' %}"></script>
+    <script src="{% static 'JS/company-panel.js' %}"></script>
+
+    {% block scripts %}{% endblock %}
+</body>
+</html>

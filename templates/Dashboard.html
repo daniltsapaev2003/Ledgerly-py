@@ -167,43 +167,6 @@
 
                 {% endfor %}
                 
-               <script>
-    const searchInput = document.getElementById("company-search");
-    const companyItems = document.querySelectorAll(".company-item");
-
-    // Поиск компаний
-    searchInput.addEventListener("input", function () {
-        const searchValue = this.value.toLowerCase().trim();
-
-        companyItems.forEach(function (item) {
-            const ticker = item.dataset.ticker || "";
-            const name = item.dataset.name || "";
-
-            if (
-                ticker.includes(searchValue) ||
-                name.includes(searchValue)
-            ) {
-                item.style.display = "flex";
-            } else {
-                item.style.display = "none";
-            }
-        });
-    });
-
-    
-    companyItems.forEach(function (item) {
-        item.addEventListener("click", function () {
-
-            // Убираем выделение со всех компаний
-            companyItems.forEach(function (company) {
-                company.classList.remove("selected");
-            });
-
-            // Выделяем выбранную компанию
-            this.classList.add("selected");
-        });
-    });
-</script>
 
 
             </div>
@@ -302,26 +265,10 @@
 
     </div>
 
-<script>
-    document.addEventListener("click", function (event) {
-        const button = event.target.closest(".year-button");
-
-        if (!button) {
-            return;
-        }
-
-        const yearButtons = document.querySelectorAll(".year-button");
-
-        yearButtons.forEach(function (item) {
-            item.classList.remove("selected");
-        });
-
-        button.classList.add("selected");
-    });
-</script>
-
-
-
 </main>
 
-{% endblock %}
+{% endblock content %}
+
+{% block scripts %}
+    <script src="{% static 'JS/dashboard.js' %}"></script>
+{% endblock scripts %}

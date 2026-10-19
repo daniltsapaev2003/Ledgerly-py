@@ -82,20 +82,6 @@
     >
         Wrong email or password
     </div>
-
-    <script>
-        setTimeout(() => {
-            const message = document.getElementById("login-error-message");
-
-            if (message) {
-                message.style.opacity = "0";
-
-                setTimeout(() => {
-                    message.remove();
-                }, 500);
-            }
-        }, 2000);
-    </script>
 {% endif %}
 
                 <div class="w-85 mx-auto mt-6 border-t border-gray-400"></div>
@@ -108,7 +94,7 @@
 
                     <button
                         type="button"
-                        onclick="document.getElementById('auth-card').classList.toggle('auth-flipped')"
+                        data-auth-toggle
                         class="text-[#3d43b8] font-normal hover:underline"
                     >
                         Sign up
@@ -233,10 +219,10 @@
     </span>
 
     <button
-        type="button"
-        onclick="document.getElementById('auth-card').classList.toggle('auth-flipped')"
+         type="button"
+        data-auth-toggle
         class="text-[#3d43b8] font-normal hover:underline"
-    >
+        >
         Sign in
     </button>
 </div>
@@ -250,4 +236,7 @@
 </div>
 </main>
 
+{% endblock %}
+{% block scripts %}
+    <script src="{% static 'JS/auth.js' %}"></script>
 {% endblock %}

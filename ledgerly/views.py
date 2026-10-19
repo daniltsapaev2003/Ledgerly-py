@@ -286,7 +286,7 @@ def company_panel(request, company_id):
     chart_mode = request.GET.get("chart_mode", "FY")
     balance_chart = build_balance_chart(
         company,
-        "FY",
+        chart_mode,
     )
     income_chart = build_income_chart(
         company,
@@ -295,7 +295,7 @@ def company_panel(request, company_id):
 
     cash_flow_chart = build_cash_flow_chart(
         company,
-        "FY",
+        chart_mode,
     )
     analyst_forecasts = build_analyst_forecasts(
     company,

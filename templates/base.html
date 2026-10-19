@@ -1,67 +1,79 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en">
-    <style>
-    .auth-flipped {
-        transform: rotateY(180deg);
-    }
-
-</style>
+<html lang="ru">
 <head>
-
-    <style>
-    .logout-button:hover {
-        color: rgb(126, 180, 247) !important;
-    }
-
-    .company-item:hover {
-        background-color: rgb(174, 206, 239);
-        border-radius: 8px;
-    }
-
-    .company-item.selected {
-    background-color: rgb(126, 180, 247);
-    color: rgb(4, 18, 129);
-    border-radius: 8px;
-}   
-.year-button {
-        height: 34px;
-        padding: 0 16px;
-        border: 1px solid rgb(209, 213, 219);
-        border-radius: 7px;
-        background: white;
-        color: rgb(60, 60, 60);
-        font-size: 14px;
-        cursor: pointer;
-    }
-
-    .year-button:hover {
-        background: rgb(245, 246, 248);
-    }
-    .year-button.selected {
-        background-color: rgb(126, 180, 247);
-        color: rgb(4, 18, 129);
-        border-color: rgb(126, 180, 247);
-    }
-</style>
-
-    </style>
-
-
-    <link rel="icon" type="image/png" href="{% static 'attached_assets/MINILOGO.png' %}">
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
     <title>{% block title %}Ledgerly{% endblock %}</title>
 
-    <link rel="stylesheet" href="{% static 'dist/output.css' %}">
+    <link
+        rel="icon"
+        type="image/png"
+        href="{% static 'attached_assets/MINILOGO.png' %}"
+    >
+
+    <link
+        rel="stylesheet"
+        href="{% static 'dist/output.css' %}"
+    >
+
+    <style>
+        .auth-flipped {
+            transform: rotateY(180deg);
+        }
+
+        .logout-button:hover {
+            color: rgb(126, 180, 247) !important;
+        }
+
+        .company-item:hover {
+            background-color: rgb(174, 206, 239);
+            border-radius: 8px;
+        }
+
+        .company-item.selected {
+            background-color: rgb(126, 180, 247);
+            color: rgb(4, 18, 129);
+            border-radius: 8px;
+        }
+
+        .year-button {
+            height: 34px;
+            padding: 0 16px;
+            border: 1px solid rgb(209, 213, 219);
+            border-radius: 7px;
+            background: white;
+            color: rgb(60, 60, 60);
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .year-button:hover {
+            background: rgb(245, 246, 248);
+        }
+
+        .year-button.selected {
+            background-color: rgb(126, 180, 247);
+            color: rgb(4, 18, 129);
+            border-color: rgb(126, 180, 247);
+        }
+    </style>
 
     <script src="https://unpkg.com/htmx.org@2.0.4"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body class="min-h-screen bg-gray-50 text-gray-900">
     {% block content %}
     {% endblock %}
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
+    <script src="{% static 'JS/charts.js' %}"></script>
+    <script src="{% static 'JS/company-panel.js' %}"></script>
+
+    {% block scripts %}{% endblock %}
 </body>
 </html>

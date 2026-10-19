@@ -52,116 +52,13 @@
             height: 400px;
         "
     >
-        <canvas id="cash-flow-chart"></canvas>
+        <canvas
+    id="cash-flow-chart"
+    data-chart-data="cash-flow-chart-data"
+    data-chart-period="cash-flow-chart-period"
+    data-chart-url="/company/{{ company.id }}/chart/cash-flow/"
+></canvas>
     </div>
 </div>
 
 {{ cash_flow_chart|json_script:"cash-flow-chart-data" }}
-
-<script>
-(function () {
-    const cashFlowChartData = JSON.parse(
-        document.getElementById("cash-flow-chart-data").textContent
-    );
-
-    const labels = cashFlowChartData.data.map(
-        item => item.label
-    );
-
-    const datasets = cashFlowChartData.series.map(
-        (series, index) => ({
-            label: series.label,
-
-            data: cashFlowChartData.data.map(
-                item => Number(item[series.key])
-            ),
-
-            backgroundColor: [
-                "#2563eb",
-                "#dc2626",
-                "#16a34a",
-                "#9333ea",
-                "#ea580c"
-            ][index],
-
-            borderWidth: 0
-        })
-    );
-
-    const chart = new Chart(
-        document.getElementById("cash-flow-chart"),
-        {
-            type: "bar",
-
-            data: {
-                labels: labels,
-                datasets: datasets
-            },
-
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-
-                scales: {
-                    x: {
-                        stacked: false
-                    },
-
-                    y: {
-                        beginAtZero: true
-                    }
-                },
-
-                plugins: {
-                    legend: {
-                        position: "bottom"
-                    }
-                }
-            }
-        }
-    );
-
-    document
-        .getElementById("cash-flow-chart-period")
-        .addEventListener("change", async function () {
-            const mode = this.value;
-
-            const companyId = "{{ company.id }}";
-
-            const response = await fetch(
-                `/company/${companyId}/chart/cash-flow/?mode=${mode}`
-            );
-
-            const newChartData = await response.json();
-
-            const newLabels = newChartData.data.map(
-                item => item.label
-            );
-
-            const newDatasets = newChartData.series.map(
-                (series, index) => ({
-                    label: series.label,
-
-                    data: newChartData.data.map(
-                        item => Number(item[series.key])
-                    ),
-
-                    backgroundColor: [
-                        "#2563eb",
-                        "#dc2626",
-                        "#16a34a",
-                        "#9333ea",
-                        "#ea580c"
-                    ][index],
-
-                    borderWidth: 0
-                })
-            );
-
-            chart.data.labels = newLabels;
-            chart.data.datasets = newDatasets;
-
-            chart.update();
-        });
-})();
-</script>

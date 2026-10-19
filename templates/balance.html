@@ -52,118 +52,13 @@
             height: 400px;
         "
     >
-        <canvas id="balance-chart"></canvas>
+        <canvas
+    id="balance-chart"
+    data-chart-data="balance-chart-data"
+    data-chart-period="balance-chart-period"
+    data-chart-url="/company/{{ company.id }}/chart/balance/"
+></canvas>
     </div>
 </div>
 
 {{ balance_chart|json_script:"balance-chart-data" }}
-
-<script>
-(function () {
-    const balanceChartData = JSON.parse(
-        document.getElementById("balance-chart-data").textContent
-    );
-
-    const labels = balanceChartData.data.map(
-        item => item.label
-    );
-
-    const datasets = balanceChartData.series.map(
-        (series, index) => ({
-            label: series.label,
-
-            data: balanceChartData.data.map(
-                item => Number(item[series.key])
-            ),
-
-            backgroundColor: [
-                "#2563eb",
-                "#dc2626",
-                "#16a34a",
-                "#9333ea",
-                "#ea580c",
-                "#0891b2"
-            ][index],
-
-            borderWidth: 0
-        })
-    );
-
-    const chart = new Chart(
-        document.getElementById("balance-chart"),
-        {
-            type: "bar",
-
-            data: {
-                labels: labels,
-                datasets: datasets
-            },
-
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-
-                scales: {
-                    x: {
-                        stacked: false
-                    },
-
-                    y: {
-                        beginAtZero: true
-                    }
-                },
-
-                plugins: {
-                    legend: {
-                        position: "bottom"
-                    }
-                }
-            }
-        }
-    );
-
-    document
-        .getElementById("balance-chart-period")
-        .addEventListener("change", async function () {
-            const mode = this.value;
-
-            const companyId = "{{ company.id }}";
-
-            const response = await fetch(
-                `/company/${companyId}/chart/balance/?mode=${mode}`
-            );
-
-            const newChartData = await response.json();
-
-            const newLabels = newChartData.data.map(
-                item => item.label
-            );
-
-            const newDatasets = newChartData.series.map(
-                (series, index) => ({
-                    label: series.label,
-
-                    data: newChartData.data.map(
-                        item => Number(item[series.key])
-                    ),
-
-                    backgroundColor: [
-                        "#2563eb",
-                        "#dc2626",
-                        "#16a34a",
-                        "#9333ea",
-                        "#ea580c",
-                        "#0891b2"
-                    ][index],
-
-                    borderWidth: 0
-                })
-            );
-
-            chart.data.labels = newLabels;
-            chart.data.datasets = newDatasets;
-
-            chart.update();
-        });
-})();
-</script>
