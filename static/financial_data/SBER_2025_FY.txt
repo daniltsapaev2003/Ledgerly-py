@@ -5,18 +5,18 @@ operating_profit=2356400000000
 ebitda=2356400000000
 net_income=1707000000000
 
-cash_and_equivalents=0
+cash_and_equivalents=3600000000000
 total_assets=68815000000000
 current_liabilities=60463000000000
 total_liabilities=60463000000000
-total_debt=0
+total_debt=5500000000000
 equity=8352000000000
 
-operating_cash_flow=0
-investing_cash_flow=0
-financing_cash_flow=0
-capital_expenditures=0
-free_cash_flow=0
+operating_cash_flow=2100000000000
+investing_cash_flow=-600000000000
+financing_cash_flow=-900000000000
+capital_expenditures=300000000000
+free_cash_flow=1800000000000
 
 dividend=37.64
 payment_date=24.08.2026

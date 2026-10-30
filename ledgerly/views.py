@@ -257,8 +257,8 @@ def company_panel(request, company_id):
         )
     
     dividends = build_dividend_table(company)
-    year = request.GET.get("year")
-    period = request.GET.get("period", "FY")
+    year = request.GET.get("year") or "2025"
+    period = request.GET.get("period") or "FY"
 
     periods = ["Q1", "Q2", "Q3", "Q4", "FY"]
 

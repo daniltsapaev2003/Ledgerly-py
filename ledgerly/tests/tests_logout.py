@@ -37,7 +37,6 @@ class LogoutViewsTests(TestCase):
 
         self.assertEqual(response.status_code, 405)
 
-        # Запрос GET не должен разлогинивать пользователя.
         self.assertEqual(
             self.client.session["session"],
             self.user.pk,
